@@ -40,7 +40,9 @@ npm run media:gym      # regenera fotos y videos
 
 ## Despliegue (Vercel, equipo "brunodunay's projects")
 
-Se publica la carpeta compilada con la CLI de Vercel (la sesión ya está guardada en la máquina):
+Los tres proyectos están conectados al repositorio https://github.com/BrunoDunay/Demos-de-gimnasio (rama `main`): cada push vuelve a compilar y publicar. Configuración en Vercel: directorio raíz `frontend`, instalación `npm ci`, compilación `npx ng build gym-<demo>`, salida `dist/gym-<demo>/browser`, Node 24. Las cabeceras y el respaldo a `index.csr.html` viven en `frontend/vercel.json` (uno para las tres).
+
+Publicación manual de respaldo (sin pasar por GitHub):
 
 ```bash
 VERCEL_ORG_ID=team_GCtgq9lFKHWF1Y5sPouZyq9H VERCEL_PROJECT_ID=<id> npx vercel@latest deploy dist/<app>/browser --prod --yes
@@ -52,7 +54,6 @@ VERCEL_ORG_ID=team_GCtgq9lFKHWF1Y5sPouZyq9H VERCEL_PROJECT_ID=<id> npx vercel@la
 | Forja (Pro) | demo-gym-forja | prj_Uq3IEQXy40788xKarVYJNzhgKeNa | https://demo-gym-forja-box.vercel.app |
 | Umbral (Premium) | demo-gym-umbral | prj_rEVNKXMFiuOfZceHRXIk1jfXvWGh | https://demo-gym-umbral.vercel.app |
 
-- `public/vercel.json` de cada app: cabeceras de seguridad, caché larga para `media/` y respaldo a `index.csr.html`.
 - La protección de Vercel quedó solo para vistas previas; las URLs de producción son públicas.
 - `demo-gym-forja.vercel.app` pertenece a otra cuenta (la demo de otro desarrollador, "FORJA Training Club"), por eso Forja usa `demo-gym-forja-box`.
 - No se usó Neon: estas demos son solo frontend.
