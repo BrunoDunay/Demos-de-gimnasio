@@ -107,8 +107,7 @@ const VIEWS = {
     ref: 'referencia logo en camiseta.jpg', origW: 736, out: 'merch', targetW: 1600,
     patch: {
       boxes: [{ box: [284, 380, 144, 150], from: [-112, -8], feather: 0.17, blur: 0 }],
-      // Estampado tono sobre tono que sigue la inclinación del hombro y la textura de la malla.
-      logos: [{ mode: 'print', x: 352, y: 452, s: 1.5, rot: 12, sx: 0.92, width: 2.1, color: '#c8a46e', ref: 70, alpha: 0.9 }],
+      // Sin logo: solo se borra el original y queda la malla.
     },
   },
   gorra: {

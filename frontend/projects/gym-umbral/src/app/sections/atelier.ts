@@ -8,7 +8,7 @@ import { Reveal } from '../shared/reveal';
 
 const ITEMS = [
   { img: 'merch-chamarra', name: 'Chamarra Umbral', detail: 'Nylon mate, forro térmico y arco bordado en oro.', price: '$2,450' },
-  { img: 'merch-playera', name: 'Playera técnica', detail: 'Malla transpirable con el arco estampado en oro mate.', price: '$890' },
+  { img: 'merch-playera', name: 'Playera técnica', detail: 'Malla transpirable de secado rápido, sin costuras en el hombro.', price: '$890' },
   { img: 'merch-gorra', name: 'Gorra Atelier', detail: 'Sarga lavada, arco bordado en hilo dorado y ajuste de latón.', price: '$690' },
   { img: 'merch-active', name: 'Línea Active', detail: 'Top de manga larga y short sin costuras, en tono tierra.', price: '$1,350' },
 ];
@@ -37,7 +37,7 @@ const ITEMS = [
           <a routerLink="/contacto" [queryParams]="{ interes: 'Atelier Umbral' }" class="link-line" data-reveal>Aparta tu talla <app-icon name="arrow-right" [size]="16" /></a>
         </div>
         <figure class="hero-img" data-reveal="clip">
-          <img class="warm" src="media/merch-caminando.webp?v=2" alt="Socia caminando hacia la sala con la playera de Umbral" loading="lazy" />
+          <img class="warm" src="media/merch-caminando.webp?v=3" alt="Socia caminando hacia la sala con la playera de Umbral" loading="lazy" />
           <figcaption><b>Playera Umbral</b><span>Negro · Algodón pima</span></figcaption>
         </figure>
       </div>
@@ -45,7 +45,7 @@ const ITEMS = [
       <div class="container row">
         @for (it of items; track it.img; let i = $index) {
           <article class="item" data-reveal [revealDelay]="i * 90" (pointermove)="light($event)">
-            <div class="frame"><img [src]="'media/' + it.img + '-sm.webp?v=2'" [alt]="it.name" loading="lazy" /><span class="sheen"></span></div>
+            <div class="frame"><img [src]="'media/' + it.img + '-sm.webp?v=3'" [alt]="it.name" loading="lazy" /><span class="sheen"></span></div>
             <div class="meta"><h3>{{ it.name }}</h3><span class="price">{{ it.price }}</span></div>
             <p>{{ it.detail }}</p>
           </article>
