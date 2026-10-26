@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import type { gsap as Gsap } from 'gsap';
-import type { Spot, View } from './rooms';
+import type { View } from './rooms';
+import { OBJECTS, type SceneObject } from './objects';
 
 export interface HoverInfo {
   name: string;
@@ -31,6 +32,10 @@ interface Slot {
   view: View;
   color?: THREE.Texture;
   depth?: THREE.Texture;
+  ids?: THREE.Texture;
+  /** Mapa de objetos en memoria para saber qué hay bajo el cursor (canal rojo = objeto + 1). */
+  idData?: { w: number; h: number; px: Uint8ClampedArray };
+  objects: SceneObject[];
   aspect: number;
   loading?: Promise<void>;
   dots: HTMLElement[];
@@ -51,18 +56,20 @@ const vertex = /* glsl */ `
 /**
  * Shader del recorrido. Todo en coordenadas de la foto (0,0 arriba a la izquierda):
  * - cover(): encuadra la foto a la pantalla con paneo y acercamiento.
- * - Hover: con la profundidad se reconstruye la superficie (posición y normal) y una franja de luz
- *   cálida recorre solo el objeto; lo que está detrás o delante a otra distancia no se ilumina.
+ * - Hover: cada vista trae un mapa con la silueta de sus objetos principales. Solo se iluminan los
+ *   pixeles del objeto: con la profundidad se reconstruye su superficie (posición y normal) y una luz
+ *   cálida avanza a lo largo de su eje en 3D, así que sigue su perspectiva (lo lejano recibe la luz
+ *   después). Sus bordes brillan un poco y el resto de la foto baja apenas.
  * - Transición: la vista actual baja sus luces y la siguiente se "enciende": primero aparecen sus
  *   lámparas y zonas claras y después el resto.
  */
 const fragment = /* glsl */ `
   precision highp float;
   varying vec2 vUv;
-  uniform sampler2D tA, dA, tB, dB;
+  uniform sampler2D tA, dA, tB, dB, idA;
   uniform float aspectA, aspectB, viewAspect, zoomA, zoomB, mixT, time;
   uniform vec2 panA, panB, mouse;
-  uniform vec2 hUv; uniform float hR, hSweep, hOn;
+  uniform vec3 hO, hD; uniform vec2 idPx; uniform float hId, hLen, hSweep, hOn;
 
   vec2 cover(vec2 s, float imgAspect, vec2 pan, float zoom) {
     vec2 size = viewAspect > imgAspect ? vec2(1.0, imgAspect / viewAspect) : vec2(viewAspect / imgAspect, 1.0);
@@ -89,20 +96,35 @@ const fragment = /* glsl */ `
     vec3 colA = texture2D(tA, uvA).rgb;
 
     if (hOn > 0.001) {
-      vec2 px = vec2(1.5 / 1024.0);
-      vec3 P = surface(dA, uvA, aspectA);
-      vec3 S = surface(dA, hUv, aspectA);
-      float fx = surface(dA, uvA + vec2(px.x, 0.0), aspectA).z - surface(dA, uvA - vec2(px.x, 0.0), aspectA).z;
-      float fy = surface(dA, uvA + vec2(0.0, px.y), aspectA).z - surface(dA, uvA - vec2(0.0, px.y), aspectA).z;
-      vec3 n = normalize(vec3(fx * 120.0, fy * 120.0, -1.0));
-      float d3 = distance(P, S);
-      float mask = 1.0 - smoothstep(hR * 0.6, hR * 1.05, d3);
-      float bandX = S.x - hR + hSweep * 2.0 * hR;
-      vec3 L = vec3(bandX, S.y - hR * 0.5, S.z - 0.45);
-      float lambert = max(dot(n, normalize(L - P)), 0.0);
-      float band = exp(-pow((P.x - bandX) / (hR * 0.16), 2.0));
-      float k = mask * hOn;
-      colA = colA * (1.0 + k * (0.32 + band * (0.4 + lambert) * 1.5)) + vec3(1.0, 0.78, 0.5) * k * (0.03 + band * 0.12);
+      float id = floor(texture2D(idA, uvA).r * 255.0 + 0.5);
+      if (abs(id - hId) < 0.5) {
+        vec2 px = vec2(1.5 / 1024.0);
+        vec3 P = surface(dA, uvA, aspectA);
+        float fx = surface(dA, uvA + vec2(px.x, 0.0), aspectA).z - surface(dA, uvA - vec2(px.x, 0.0), aspectA).z;
+        float fy = surface(dA, uvA + vec2(0.0, px.y), aspectA).z - surface(dA, uvA - vec2(0.0, px.y), aspectA).z;
+        vec3 n = normalize(vec3(fx * 160.0, fy * 160.0, -1.0));
+        // Qué tan cerca del borde de la silueta está el pixel (8 direcciones, dos radios).
+        float near = 0.0;
+        for (int k = 0; k < 8; k++) {
+          float a = float(k) * 0.7854;
+          vec2 dir = vec2(cos(a), sin(a)) * idPx;
+          near += 1.0 - step(0.5, abs(floor(texture2D(idA, uvA + dir * 2.5).r * 255.0 + 0.5) - hId));
+          near += 1.0 - step(0.5, abs(floor(texture2D(idA, uvA + dir * 9.0).r * 255.0 + 0.5) - hId));
+        }
+        float rim = 1.0 - near / 16.0;
+        // Avance de la luz a lo largo del eje del objeto (0 = un extremo, 1 = el otro).
+        float t = dot(P - hO, hD) / max(hLen, 0.001);
+        float band = exp(-pow((t - hSweep) / 0.13, 2.0));
+        vec3 Lp = hO + hD * (hSweep * hLen) + vec3(0.0, -0.22, -0.55);
+        vec3 l = normalize(Lp - P);
+        float lambert = max(dot(n, l), 0.0);
+        float spec = pow(max(dot(n, normalize(l + vec3(0.0, 0.0, -1.0))), 0.0), 18.0);
+        float k = hOn;
+        colA *= 1.0 + k * (0.16 + lambert * 0.22 + band * (0.35 + lambert * 0.9));
+        colA += vec3(1.0, 0.8, 0.55) * k * (0.025 + band * (0.12 + spec * 0.35) + rim * 0.24);
+      } else {
+        colA *= 1.0 - hOn * 0.2;
+      }
     }
 
     vec3 col = colA;
@@ -152,8 +174,12 @@ export function createImageScene(container: HTMLElement, gsap: typeof Gsap, opts
     panA: { value: new THREE.Vector2(0.5, 0.5) },
     panB: { value: new THREE.Vector2(0.5, 0.5) },
     mouse: { value: new THREE.Vector2() },
-    hUv: { value: new THREE.Vector2(0.5, 0.5) },
-    hR: { value: 0.1 },
+    idA: { value: blank as THREE.Texture },
+    idPx: { value: new THREE.Vector2(1 / 1024, 1 / 683) },
+    hId: { value: -1 },
+    hO: { value: new THREE.Vector3() },
+    hD: { value: new THREE.Vector3(1, 0, 0) },
+    hLen: { value: 1 },
     hSweep: { value: 0 },
     hOn: { value: 0 },
   };
@@ -169,7 +195,8 @@ export function createImageScene(container: HTMLElement, gsap: typeof Gsap, opts
   const slots: Slot[] = opts.views.map((view) => ({
     view,
     aspect: view.aspect,
-    dots: view.spots.map((s) => {
+    objects: OBJECTS[view.id] ?? [],
+    dots: (OBJECTS[view.id] ?? []).map((s) => {
       const d = document.createElement('span');
       d.className = 'splat-dot';
       d.setAttribute('aria-hidden', 'true');
@@ -187,12 +214,38 @@ export function createImageScene(container: HTMLElement, gsap: typeof Gsap, opts
       t.generateMipmaps = false;
       return t;
     });
+  // El mapa de objetos se lee sin conversión de color ni suavizado: cada valor es un número de objeto.
+  const idMap = async (url: string) => {
+    const blob = await (await fetch(url)).blob();
+    const bmp = await createImageBitmap(blob, { colorSpaceConversion: 'none', premultiplyAlpha: 'none' });
+    const cv = document.createElement('canvas');
+    cv.width = bmp.width;
+    cv.height = bmp.height;
+    const ctx = cv.getContext('2d', { willReadFrequently: true })!;
+    ctx.drawImage(bmp, 0, 0);
+    const data = { w: bmp.width, h: bmp.height, px: ctx.getImageData(0, 0, bmp.width, bmp.height).data };
+    const t = new THREE.Texture(bmp);
+    t.colorSpace = THREE.NoColorSpace;
+    t.minFilter = t.magFilter = THREE.NearestFilter;
+    t.generateMipmaps = false;
+    t.flipY = false;
+    t.needsUpdate = true;
+    return { t, data };
+  };
   const load = (i: number) => {
     const s = slots[i];
     if (!s) return Promise.resolve();
-    s.loading ??= Promise.all([tex(`${opts.base}${s.view.id}${size}.webp`), tex(`${opts.base}${s.view.id}-depth.webp`)]).then(([c, d]) => {
+    s.loading ??= Promise.all([
+      tex(`${opts.base}${s.view.id}${size}.webp`),
+      tex(`${opts.base}${s.view.id}-depth.webp`),
+      s.objects.length ? idMap(`${opts.base}${s.view.id}-ids.png`).catch(() => null) : Promise.resolve(null),
+    ]).then(([c, d, ids]) => {
       s.color = c;
       s.depth = d;
+      if (ids) {
+        s.ids = ids.t;
+        s.idData = ids.data;
+      }
       const img = c.image as { width: number; height: number };
       s.aspect = img.width / img.height;
     });
@@ -215,7 +268,7 @@ export function createImageScene(container: HTMLElement, gsap: typeof Gsap, opts
   let active = true;
   const ptr = { x: 0, y: 0, tx: 0, ty: 0 };
   const mouse = { x: 0, y: 0, on: false };
-  let hovered: { i: number; k: number; spot: Spot } | null = null;
+  let hovered: { i: number; k: number; obj: SceneObject } | null = null;
   let sweep: ReturnType<typeof gsap.to> | null = null;
   let current = 0;
   const N = slots.length;
@@ -251,18 +304,22 @@ export function createImageScene(container: HTMLElement, gsap: typeof Gsap, opts
   };
 
   const setHover = (next: typeof hovered) => {
-    if (hovered && (!next || next.spot !== hovered.spot)) {
+    const same = !!hovered && !!next && next.obj === hovered.obj;
+    if (hovered && !same) {
       sweep?.kill();
-      gsap.to(u.hOn, { value: 0, duration: 0.5, ease: 'power2.out' });
       slots[hovered.i].dots[hovered.k]?.classList.remove('is-on');
+      if (!next) gsap.to(u.hOn, { value: 0, duration: 0.45, ease: 'power2.out', overwrite: true });
     }
-    if (next && (!hovered || next.spot !== hovered.spot)) {
-      const slot = slots[next.i];
-      u.hUv.value.set(next.spot.u, next.spot.v);
-      u.hR.value = next.spot.r;
-      gsap.to(u.hOn, { value: 1, duration: 0.5, ease: 'power2.out' });
-      sweep = gsap.fromTo(u.hSweep, { value: 0 }, { value: 1, duration: 1.5, ease: 'power1.inOut', repeat: -1, repeatDelay: 0.4 });
-      slot.dots[next.k]?.classList.add('is-on');
+    if (next && !same) {
+      const o = next.obj;
+      u.hId.value = next.k + 1;
+      u.hO.value.set(...o.o);
+      u.hD.value.set(...o.d);
+      u.hLen.value = o.len;
+      gsap.fromTo(u.hOn, { value: hovered ? 0.35 : u.hOn.value }, { value: 1, duration: 0.55, ease: 'power2.out', overwrite: true });
+      // La luz entra por un extremo, recorre el objeto y vuelve a empezar.
+      sweep = gsap.fromTo(u.hSweep, { value: -0.25 }, { value: 1.25, duration: 1.8, ease: 'sine.inOut', repeat: -1, repeatDelay: 0.5 });
+      slots[next.i].dots[next.k]?.classList.add('is-on');
     }
     if (!next) opts.onHover(null);
     hovered = next;
@@ -294,6 +351,8 @@ export function createImageScene(container: HTMLElement, gsap: typeof Gsap, opts
       u.tA.value = a.color;
       u.dA.value = a.depth!;
       u.aspectA.value = a.aspect;
+      u.idA.value = a.ids ?? blank;
+      if (a.idData) u.idPx.value.set(1 / a.idData.w, 1 / a.idData.h);
     }
     if (b.color) {
       u.tB.value = b.color;
@@ -323,7 +382,7 @@ export function createImageScene(container: HTMLElement, gsap: typeof Gsap, opts
           d.style.opacity = '0';
           return;
         }
-        const p = toScreen(s.view.spots[k].u, s.view.spots[k].v);
+        const p = toScreen(s.objects[k].u, s.objects[k].v);
         const inView = p.x > 20 && p.x < w - 20 && p.y > 80 && p.y < h - 20;
         d.style.opacity = inView ? '1' : '0';
         d.style.transform = `translate(${p.x}px, ${p.y}px)`;
@@ -333,29 +392,24 @@ export function createImageScene(container: HTMLElement, gsap: typeof Gsap, opts
     if (mouse.on && showDots) pick(i);
     else if (hovered) setHover(null);
     if (hovered) {
-      const p = toScreen(hovered.spot.u, hovered.spot.v);
-      const rPx = (hovered.spot.r / frame(state.aspect, state.pan, state.zoom).sh) * h;
-      opts.onHover({ name: hovered.spot.name, detail: hovered.spot.detail, x: p.x, y: p.y - Math.min(rPx * 0.75, 150) });
+      // La ficha va sobre la parte alta del objeto, sin salirse de la pantalla.
+      const o = hovered.obj;
+      const p = toScreen(o.u, o.top);
+      opts.onHover({ name: o.name, detail: o.detail, x: Math.min(w - 130, Math.max(130, p.x)), y: Math.min(h - 60, Math.max(170, p.y - 10)) });
     }
     renderer.render(scene, camera);
   };
 
+  // Qué objeto hay bajo el cursor: se lee el mapa de objetos en ese punto de la foto.
   const pick = (i: number) => {
     const s = slots[i];
-    const f = frame(state.aspect, state.pan, state.zoom);
     const m = toImage(mouse.x, mouse.y);
-    let best: typeof hovered = null;
-    let bestD = Infinity;
-    s.view.spots.forEach((spot, k) => {
-      // Distancia en la foto, con el ancho corregido por la proporción.
-      const d = Math.hypot((m.u - spot.u) * s.aspect, m.v - spot.v);
-      const r = Math.max(spot.r, (26 / h) * f.sh);
-      if (d < r && d / r < bestD) {
-        bestD = d / r;
-        best = { i, k, spot };
-      }
-    });
-    setHover(best);
+    const data = s.idData;
+    if (!data || m.u < 0 || m.u > 1 || m.v < 0 || m.v > 1) return setHover(null);
+    const x = Math.min(data.w - 1, Math.floor(m.u * data.w));
+    const y = Math.min(data.h - 1, Math.floor(m.v * data.h));
+    const obj = s.objects[data.px[(y * data.w + x) * 4] - 1];
+    setHover(obj ? { i, k: s.objects.indexOf(obj), obj } : null);
   };
 
   const resize = () => {
@@ -395,6 +449,7 @@ export function createImageScene(container: HTMLElement, gsap: typeof Gsap, opts
       for (const s of slots) {
         s.color?.dispose();
         s.depth?.dispose();
+        s.ids?.dispose();
       }
       material.dispose();
       renderer.dispose();

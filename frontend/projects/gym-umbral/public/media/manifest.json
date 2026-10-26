@@ -258,17 +258,17 @@
     {
       "name": "gym-pasillo",
       "width": 1200,
-      "height": 2139
+      "height": 2131
     },
     {
       "name": "gym-ventanal",
       "width": 1200,
-      "height": 2139
+      "height": 2131
     },
     {
       "name": "gym-cardio",
       "width": 1470,
-      "height": 991
+      "height": 980
     },
     {
       "name": "vestidor-lockers",
@@ -283,27 +283,27 @@
     {
       "name": "recepcion",
       "width": 1470,
-      "height": 991
+      "height": 980
     },
     {
       "name": "vestidor-umbral",
       "width": 1470,
-      "height": 991
+      "height": 980
     },
     {
       "name": "regaderas",
       "width": 1400,
-      "height": 1613
+      "height": 1610
     },
     {
       "name": "fachada",
       "width": 1470,
-      "height": 991
+      "height": 980
     },
     {
       "name": "merch-chamarra",
-      "width": 736,
-      "height": 982
+      "width": 900,
+      "height": 1201
     },
     {
       "name": "merch-playera",
@@ -318,7 +318,7 @@
     {
       "name": "merch-caminando",
       "width": 600,
-      "height": 1995
+      "height": 2002
     },
     {
       "name": "merch-active",

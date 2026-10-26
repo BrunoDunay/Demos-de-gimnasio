@@ -37,7 +37,7 @@ export const routes: Routes = [
     canDeactivate: [leavePage],
     data: {
       title: 'Membresías y paquetes de clases | Umbral',
-      description: 'Membresías Grafito, Oro y Ónix sin inscripción. Paquetes de 1, 5 y 10 clases y primera sesión de cortesía.',
+      description: 'Membresías Gold, Platinum y Diamond sin inscripción. Paquetes de 1, 5 y 10 clases y primera sesión de cortesía.',
     },
   },
   {

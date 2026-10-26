@@ -11,8 +11,8 @@ const FIRST = ZONES.map((_, zi) => VIEWS.findIndex((v) => v.zone === zi));
 /**
  * Recorrido del club por fotos reales del espacio (ampliadas y con mapa de profundidad): la sección
  * se fija y el scroll avanza vista por vista, de la entrada a recovery. Entre vistas la habitación
- * baja sus luces y se enciende la siguiente. Los puntos de luz marcan objetos: al pasar el cursor, una
- * franja de luz los recorre siguiendo su forma y aparece su ficha. Three.js se descarga solo aquí.
+ * baja sus luces y se enciende la siguiente. Los objetos principales de cada foto tienen hover: se ilumina
+ * solo su silueta, con una luz que sigue su perspectiva, y aparece su ficha. Three.js se descarga solo aquí.
  */
 @Component({
   selector: 'app-club-tour',
@@ -36,9 +36,9 @@ const FIRST = ZONES.map((_, zi) => VIEWS.findIndex((v) => v.zone === zi));
           <header class="top">
             <span class="label">Recorre el club<span class="long"> · desliza para avanzar</span></span>
             @if (fine) {
-              <span class="hint">Pasa el cursor por los puntos de luz</span>
+              <span class="hint">Pasa el cursor por los objetos</span>
             } @else {
-              <span class="hint">Toca los puntos de luz</span>
+              <span class="hint">Toca los objetos</span>
             }
           </header>
 
@@ -169,7 +169,7 @@ export class ClubTour {
         scene = this.zoneRef.runOutsideAngular(() =>
           mod.createImageScene(stage, gsap, {
             views: VIEWS,
-            base: 'media/club2/',
+            base: 'media/club3/',
             mobile,
             onReady: () => this.zoneRef.run(() => this.ready.set(true)),
             onHover: (info) => this.zoneRef.run(() => this.tip.set(info)),

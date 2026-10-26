@@ -32,7 +32,7 @@ const ITEMS = [
           <ul class="values">
             <li data-reveal><span class="ico"><app-icon name="sparkle" [size]="18" /></span><div><b>Edición de temporada</b><span>Pocas piezas, numeradas, que no se repiten.</span></div></li>
             <li data-reveal [revealDelay]="100"><span class="ico"><app-icon name="user" [size]="18" /></span><div><b>Solo para socios</b><span>Se compra en recepción, con tu código.</span></div></li>
-            <li data-reveal [revealDelay]="200"><span class="ico"><app-icon name="heart" [size]="18" /></span><div><b>Kit de bienvenida</b><span>Playera y botella al entrar con Oro u Ónix.</span></div></li>
+            <li data-reveal [revealDelay]="200"><span class="ico"><app-icon name="heart" [size]="18" /></span><div><b>Kit de bienvenida</b><span>Playera y botella al entrar con Platinum o Diamond.</span></div></li>
           </ul>
           <a routerLink="/contacto" [queryParams]="{ interes: 'Atelier Umbral' }" class="link-line" data-reveal>Aparta tu talla <app-icon name="arrow-right" [size]="16" /></a>
         </div>

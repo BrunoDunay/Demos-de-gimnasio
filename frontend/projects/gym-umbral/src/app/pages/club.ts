@@ -22,7 +22,7 @@ const SPACES: Space[] = [
   { img: 'ride-led', title: 'Sala de Ride', text: 'Oscuridad total, aros de luz que siguen la música y sonido que se siente en el pecho.', facts: ['20 bicis', 'Sonido 360°', 'Métricas en pantalla'] },
   { img: 'fuerza-sala', video: 'v-fuerza-2', title: 'Estudio de Fuerza', text: 'Peso libre, rack olímpico y un espacio privado para sesiones uno a uno.', facts: ['Mancuernas 2–40 kg', 'Rack olímpico', 'Estudio privado'] },
   { img: 'vestidor-umbral', title: 'Vestidores', text: 'Lockers digitales, regaderas de lluvia, amenidades de autor y toallas de algodón turco.', facts: ['Lockers con código', 'Regaderas de lluvia', 'Secadoras profesionales'] },
-  { img: 'sauna', video: 'v-sauna', title: 'Sauna y Recovery', text: 'Quince minutos de calor seco para recuperar músculo y bajar las revoluciones.', facts: ['Infrarrojo', 'Hasta 4 personas', 'Incluido desde Oro'] },
+  { img: 'sauna', video: 'v-sauna', title: 'Sauna y Recovery', text: 'Quince minutos de calor seco para recuperar músculo y bajar las revoluciones.', facts: ['Infrarrojo', 'Hasta 4 personas', 'Incluido desde Platinum'] },
 ];
 
 const GALLERY = [

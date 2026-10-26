@@ -36,7 +36,7 @@ function qrPath(): string {
 /**
  * Encabezado de Membresías: una tarjeta de socio en 3D que flota, se inclina hacia el cursor con
  * un reflejo dorado, gira al hacer clic (reverso con beneficios y acceso) y cambia de acabado
- * según el plan elegido: grafito (Grafito), oro (Oro) y ónix con oro rosa (Ónix).
+ * según el plan elegido: oro cálido (Gold), platino frío (Platinum) y negro con brillo helado (Diamond).
  */
 @Component({
   selector: 'app-member-hero',
@@ -137,9 +137,9 @@ function qrPath(): string {
       transition: background 800ms ease;
     }
     .back { transform: rotateY(180deg); }
-    .card[data-plan='grafito'] { --c1: #23221f; --c2: #4b4841; --f1: #f4f1ea; --f2: #9d998f; }
-    .card[data-plan='oro'] { --c1: #2a2015; --c2: #7a5c36; --f1: #fbe7c2; --f2: #b48a52; }
-    .card[data-plan='onix'] { --c1: #0a0a0a; --c2: #26201d; --f1: #f6d2bd; --f2: #a86f56; }
+    .card[data-plan='gold'] { --c1: #2a2015; --c2: #7a5c36; --f1: #fbe7c2; --f2: #b48a52; }
+    .card[data-plan='platinum'] { --c1: #2b2d30; --c2: #8a8f96; --f1: #ffffff; --f2: #b9bec5; }
+    .card[data-plan='diamond'] { --c1: #050608; --c2: #1d2228; --f1: #e8f4ff; --f2: #8fb3cf; }
     .brush { position: absolute; inset: 0; background: repeating-linear-gradient(90deg, rgb(255 255 255 / 3%) 0 1px, transparent 1px 3px); pointer-events: none; }
     .row { position: relative; display: flex; justify-content: space-between; align-items: flex-start; }
     .brand { display: flex; align-items: center; gap: 10px; }
@@ -172,9 +172,9 @@ function qrPath(): string {
     .chips button:hover { color: var(--ink); }
     .chips button.on { background: var(--ink); color: var(--bg); }
     .chips i { width: 10px; height: 10px; border-radius: 50%; }
-    .chips i[data-plan='grafito'] { background: linear-gradient(135deg, #f4f1ea, #6f6b62); }
-    .chips i[data-plan='oro'] { background: linear-gradient(135deg, #fbe7c2, #9a7242); }
-    .chips i[data-plan='onix'] { background: linear-gradient(135deg, #f6d2bd, #1a1413); }
+    .chips i[data-plan='gold'] { background: linear-gradient(135deg, #fbe7c2, #9a7242); }
+    .chips i[data-plan='platinum'] { background: linear-gradient(135deg, #ffffff, #8a8f96); }
+    .chips i[data-plan='diamond'] { background: linear-gradient(135deg, #e8f4ff, #0b0d10); }
     .summary { margin-top: 16px; font-size: 0.9rem; color: var(--muted); }
     .summary em { font-family: var(--font-display); font-size: 1.1rem; color: var(--gold); }
     .summary b { color: var(--ink); font-weight: 600; }

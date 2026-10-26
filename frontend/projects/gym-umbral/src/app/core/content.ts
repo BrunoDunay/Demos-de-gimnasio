@@ -200,7 +200,7 @@ export const AMENITIES = [
   { icon: 'towel', title: 'Toallas incluidas', text: 'Grande y chica en cada visita.' },
   { icon: 'drop', title: 'Regaderas de lluvia', text: 'Con amenidades de autor.' },
   { icon: 'lock', title: 'Lockers digitales', text: 'Con tu código personal.' },
-  { icon: 'flame', title: 'Sauna infrarrojo', text: 'Incluido en Oro.' },
+  { icon: 'flame', title: 'Sauna infrarrojo', text: 'Incluido en Platinum.' },
   { icon: 'coffee', title: 'Barra de café', text: 'Espresso y smoothies post entreno.' },
   { icon: 'car', title: 'Estacionamiento', text: 'Gratis con valet en horas pico.' },
   { icon: 'wifi', title: 'Wifi y lounge', text: 'Para llegar antes o quedarte después.' },
@@ -227,11 +227,11 @@ export interface Plan {
   featured: boolean;
 }
 
-// Los nombres son los acabados de la tarjeta de socio: grafito, oro y ónix (de la entrada a lo más exclusivo).
+// Los nombres siguen los metales y piedras de las tarjetas premium: Gold, Platinum y Diamond.
 export const PLANS: Plan[] = [
   {
-    id: 'grafito',
-    name: 'Grafito',
+    id: 'gold',
+    name: 'Gold',
     monthly: 1890,
     note: 'Para empezar con constancia',
     classes: '8 clases al mes',
@@ -247,12 +247,12 @@ export const PLANS: Plan[] = [
     featured: false,
   },
   {
-    id: 'oro',
-    name: 'Oro',
+    id: 'platinum',
+    name: 'Platinum',
     monthly: 2690,
     note: 'La experiencia completa',
     classes: 'Clases ilimitadas',
-    includes: 'grafito',
+    includes: 'gold',
     features: [
       'Clases ilimitadas en todas las disciplinas',
       'Reserva con 14 días de anticipación',
@@ -267,12 +267,12 @@ export const PLANS: Plan[] = [
     featured: true,
   },
   {
-    id: 'onix',
-    name: 'Ónix',
+    id: 'diamond',
+    name: 'Diamond',
     monthly: 3900,
     note: 'Uno a uno con tu coach',
     classes: '8 sesiones privadas al mes',
-    includes: 'oro',
+    includes: 'platinum',
     features: [
       'Programa hecho a tu medida, revisado cada mes',
       'Estudio privado y horario flexible',
@@ -313,12 +313,12 @@ export const COMPARE: { feature: string; values: (string | boolean)[] }[] = [
 ];
 
 export const TESTIMONIALS = [
-  { img: 'socia-valeria', quote: 'Es el único lugar al que llego cansada y salgo con más energía. La luz, el olor, la música… todo está pensado.', name: 'Valeria C.', meta: 'Oro · 2 años' },
-  { img: 'socio-jorge', quote: 'Tenía años con dolor de espalda. Tres meses de Reformer con Renata y ya ni me acuerdo de él.', name: 'Jorge A.', meta: 'Grafito · 8 meses' },
-  { img: 'socia-sofia', quote: 'El Ride de los viernes es mi terapia. Emilio pone música que no escuchas en ningún otro lado.', name: 'Sofía M.', meta: 'Oro · 1 año' },
-  { img: 'socio-andres', quote: 'Lo que más valoro es el trato. Te reciben por tu nombre y saben exactamente cómo vas.', name: 'Andrés R.', meta: 'Ónix · 6 meses' },
-  { img: 'socia-mar', quote: 'Entro al sauna después de Fuerza y salgo como nueva. Es mi hora del día para mí.', name: 'Mariana T.', meta: 'Oro · 1 año' },
-  { img: 'socio-dani', quote: 'Me gusta que los grupos sean chicos. El coach corrige cada repetición y se nota en los números.', name: 'Daniel P.', meta: 'Grafito · 4 meses' },
+  { img: 'socia-valeria', quote: 'Es el único lugar al que llego cansada y salgo con más energía. La luz, el olor, la música… todo está pensado.', name: 'Valeria C.', meta: 'Platinum · 2 años' },
+  { img: 'socio-jorge', quote: 'Tenía años con dolor de espalda. Tres meses de Reformer con Renata y ya ni me acuerdo de él.', name: 'Jorge A.', meta: 'Gold · 8 meses' },
+  { img: 'socia-sofia', quote: 'El Ride de los viernes es mi terapia. Emilio pone música que no escuchas en ningún otro lado.', name: 'Sofía M.', meta: 'Platinum · 1 año' },
+  { img: 'socio-andres', quote: 'Lo que más valoro es el trato. Te reciben por tu nombre y saben exactamente cómo vas.', name: 'Andrés R.', meta: 'Diamond · 6 meses' },
+  { img: 'socia-mar', quote: 'Entro al sauna después de Fuerza y salgo como nueva. Es mi hora del día para mí.', name: 'Mariana T.', meta: 'Platinum · 1 año' },
+  { img: 'socio-dani', quote: 'Me gusta que los grupos sean chicos. El coach corrige cada repetición y se nota en los números.', name: 'Daniel P.', meta: 'Gold · 4 meses' },
 ];
 
 export interface DayStop {
@@ -349,7 +349,7 @@ export const DAY: DayStop[] = [
 
 export const FAQ = [
   { q: '¿Necesito experiencia previa?', a: 'No. Todas las clases tienen opciones para principiantes y el coach te acompaña desde tu primera sesión. Te recomendamos llegar 10 minutos antes.' },
-  { q: '¿Cómo reservo mi lugar?', a: 'Por WhatsApp o en recepción. Los socios Grafito reservan con 7 días de anticipación y los Oro con 14.' },
+  { q: '¿Cómo reservo mi lugar?', a: 'Por WhatsApp o en recepción. Los socios Gold reservan con 7 días de anticipación y los Platinum con 14.' },
   { q: '¿Qué pasa si no puedo asistir?', a: 'Puedes cancelar sin costo hasta 6 horas antes. Después de eso la clase se considera tomada.' },
   { q: '¿Qué debo llevar?', a: 'Solo ropa cómoda. Para Reformer usamos calcetas antiderrapantes: si no tienes, te regalamos tu primer par.' },
   { q: '¿Tienen estacionamiento?', a: 'Sí, gratuito para socios, con servicio de valet de 6:00 a 9:00 y de 18:00 a 21:00.' },
@@ -358,4 +358,4 @@ export const FAQ = [
   { q: '¿Facturan?', a: 'Sí, emitimos factura de todas las membresías y paquetes.' },
 ];
 
-export const INTERESTS = ['Primera sesión de cortesía', 'Membresía Grafito', 'Membresía Oro', 'Membresía Ónix', 'Paquete de clases'];
+export const INTERESTS = ['Primera sesión de cortesía', 'Membresía Gold', 'Membresía Platinum', 'Membresía Diamond', 'Paquete de clases'];

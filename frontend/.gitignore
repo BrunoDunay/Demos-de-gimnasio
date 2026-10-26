@@ -43,3 +43,6 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 scripts/.cache/
+
+# Herramientas de IA del recorrido (se instalan aparte)
+scripts/club3d/ia/node_modules/
