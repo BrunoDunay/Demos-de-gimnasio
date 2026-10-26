@@ -3,7 +3,11 @@
 import path from 'node:path';
 import sharp from 'sharp';
 const ROOT = path.resolve(import.meta.dirname, '../..');
-const src = path.join(ROOT, 'scripts/.cache/club3d/hd/exterior-hd.png');
+// Usa la ampliación x4 si existe (bordes del cielo más limpios); si no, la x2. Se trabaja a 2400 px.
+import fs from 'node:fs';
+const x4 = path.join(ROOT, 'scripts/.cache/club3d/hd4/exterior-hd4.png');
+const srcFile = fs.existsSync(x4) ? x4 : path.join(ROOT, 'scripts/.cache/club3d/hd/exterior-hd.png');
+const src = await sharp(srcFile).resize({ width: 2400, withoutEnlargement: true }).png().toBuffer();
 const OUT = path.join(ROOT, 'projects/gym-umbral/public/media');
 const { data, info } = await sharp(src).removeAlpha().raw().toBuffer({ resolveWithObject: true });
 const W = info.width, H = info.height, N = W * H;

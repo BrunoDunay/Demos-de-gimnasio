@@ -100,7 +100,6 @@ export const DISCIPLINES: Discipline[] = [
     img: 'gym-sala',
     wide: 'gym-cardio',
     vert: 'v-rack',
-    arch: 'v-caminadora',
     gallery: ['gym-pasillo', 'gym-ventanal', 'gym-oscuro'],
     text: 'Peso libre, máquinas y cardio frente al jardín interior, con coach de piso que corrige y ajusta tus cargas.',
     long: 'Una sala abierta de 5:30 a 22:00 para entrenar por tu cuenta: mancuernas de 2 a 40 kg, racks, poleas, caminadoras y escaladoras. Tu coach de piso te arma la rutina y la revisa cada mes.',
@@ -336,7 +335,7 @@ export interface DayStop {
 
 export const DAY: DayStop[] = [
   { time: '06:00', title: 'Ride Sunrise', place: 'Sala de Ride', text: 'La ciudad todavía duerme y la sala ya vibra. 45 minutos para empezar con todo.', img: 'ride-led', sky: ['#141a30', '#4a3a55'] },
-  { time: '06:45', title: 'Sala de pesas', place: 'Gimnasio', text: 'Tu rutina, a tu ritmo, con coach de piso que corrige y ajusta cargas.', img: 'gym-sala', video: 'v-caminadora', sky: ['#283050', '#b0787a'] },
+  { time: '06:45', title: 'Sala de pesas', place: 'Gimnasio', text: 'Tu rutina, a tu ritmo, con coach de piso que corrige y ajusta cargas.', img: 'gym-cardio', sky: ['#283050', '#b0787a'] },
   { time: '07:15', title: 'Reformer Flow', place: 'Estudio Reformer', text: 'Luz dorada, respiración lenta y doce reformers alineados frente al espejo.', img: 'reformer-warm', video: 'v-reformer', sky: ['#3d5a86', '#e0a888'] },
   { time: '09:00', title: 'Café en el lounge', place: 'Lounge', text: 'Espresso, smoothie de temporada y la mesa larga donde se queda la conversación.', img: 'velas', sky: ['#4f7fb6', '#bcd3e6'] },
   { time: '10:30', title: 'Movilidad', place: 'Estudio Mat', text: 'Cadera, columna y hombros. La clase que hace que todo lo demás se sienta mejor.', img: 'mat-studio', sky: ['#5a8cc4', '#c9dceb'] },

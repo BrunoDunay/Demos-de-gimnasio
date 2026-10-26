@@ -317,8 +317,8 @@
     },
     {
       "name": "merch-caminando",
-      "width": 592,
-      "height": 1968
+      "width": 600,
+      "height": 1995
     },
     {
       "name": "merch-active",
@@ -396,10 +396,6 @@
     {
       "name": "v-suelo",
       "kb": 843
-    },
-    {
-      "name": "v-caminadora",
-      "kb": 685
     },
     {
       "name": "v-edit",

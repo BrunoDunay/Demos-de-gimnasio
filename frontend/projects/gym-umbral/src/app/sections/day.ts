@@ -104,10 +104,11 @@ const toMin = (t: string) => {
     .arc { position: absolute; left: 0; right: 0; top: 7%; width: 100%; height: 32vh; opacity: 0.7; }
     .arc path { fill: none; stroke: rgb(239 232 220 / 16%); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-dasharray: 0.004 0.008; }
     .sun { position: absolute; left: var(--sx); top: var(--sy); width: 16px; height: 16px; translate: -50% -50%; border-radius: 50%; background: var(--sun, #ffe2b0); box-shadow: 0 0 14px 4px var(--sun, #ffd08a), 0 0 50px 14px rgb(255 208 138 / 45%); transition: background-color 1s ease, box-shadow 1s ease; }
-    .facade { position: absolute; inset: 0; pointer-events: none; opacity: 0.82; }
-    .facade img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 70%; }
-    .f-day { opacity: calc(1 - var(--night)); filter: saturate(0.85); }
-    .f-night { opacity: var(--night); }
+    .facade { position: absolute; inset: 0; pointer-events: none; }
+    /* La fachada completa, apoyada abajo; los costados se funden con el cielo en lugar de recortarse. */
+    .facade img { position: absolute; left: 50%; bottom: 14vh; width: min(96vw, 112vh); height: auto; aspect-ratio: 1472 / 992; translate: -50% 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
+    .f-day { opacity: calc((1 - var(--night)) * 0.85); filter: saturate(0.85); }
+    .f-night { opacity: calc(var(--night) * 0.88); }
     .f-lights { mix-blend-mode: screen; opacity: calc(var(--night) * 1.15); animation: hum 6s steps(1) infinite; }
     @keyframes hum { 0%, 100% { filter: brightness(1); } 47% { filter: brightness(0.92); } 49% { filter: brightness(1.05); } }
     /* Velo para leer el título y las tarjetas sobre la fachada. */
@@ -120,11 +121,11 @@ const toMin = (t: string) => {
     .clock span { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); }
 
     .track { position: relative; display: flex; align-items: flex-end; gap: clamp(28px, 3vw, 48px); width: max-content; padding-left: max(var(--gutter), calc((100vw - var(--container)) / 2)); padding-right: 30vw; will-change: transform; }
-    .card { --px: 0; position: relative; flex: none; width: clamp(230px, 19vw, 300px); display: flex; flex-direction: column; opacity: 0.55; transform: scale(0.93); transform-origin: 50% 100%; transition: opacity 700ms ease, transform 900ms var(--ease-out); }
+    .card { --px: 0; position: relative; flex: none; width: clamp(200px, 15.5vw, 250px); display: flex; flex-direction: column; opacity: 0.55; transform: scale(0.93); transform-origin: 50% 100%; transition: opacity 700ms ease, transform 900ms var(--ease-out); }
     .card.is-on { opacity: 1; transform: none; }
     /* Puerta: marco con bisel dorado, profundidad interior y un umbral iluminado. */
     .door { position: relative; padding: 9px 9px 0; border-radius: 1000px 1000px 0 0; background: linear-gradient(180deg, #3a3024, #1c1813 70%); box-shadow: inset 0 0 0 1px rgb(216 185 138 / 32%), inset 0 2px 0 rgb(255 236 204 / 12%), 0 30px 50px -24px rgb(0 0 0 / 80%); }
-    .room { position: relative; aspect-ratio: 3 / 4.1; overflow: hidden; border-radius: 1000px 1000px 0 0; background: #0b0a08; }
+    .room { position: relative; aspect-ratio: 3 / 3.7; overflow: hidden; border-radius: 1000px 1000px 0 0; background: #0b0a08; }
     .media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: translateX(calc(var(--px) * -12%)) scale(1.3); will-change: transform; }
     .glow { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 100%, rgb(255 214 160 / 30%), transparent 60%); mix-blend-mode: screen; opacity: 0; transition: opacity 900ms ease; }
     .card.is-on .glow { opacity: 1; }

@@ -169,7 +169,7 @@ export class ClubTour {
         scene = this.zoneRef.runOutsideAngular(() =>
           mod.createImageScene(stage, gsap, {
             views: VIEWS,
-            base: 'media/club/',
+            base: 'media/club2/',
             mobile,
             onReady: () => this.zoneRef.run(() => this.ready.set(true)),
             onHover: (info) => this.zoneRef.run(() => this.tip.set(info)),
