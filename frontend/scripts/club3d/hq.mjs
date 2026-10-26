@@ -96,10 +96,53 @@ const VIEWS = {
     patch: {
       boxes: [[1036, 1182, 124, 64, 3, 2], [846, 1240, 312, 150, 3, 2], [1004, 1430, 156, 52, 3, 2], [776, 1482, 384, 64, 3, 2], [76, 1356, 94, 56, 3, 1.5]]
         .map(([x, y, w, h, noise, blur]) => ({ box: [x, y, w, h], noise, blur })),
-      crop: [0, 0, 1179, 1870],
+      // Sin la franja clara del borde derecho.
+      crop: [0, 0, 1150, 1870],
+    },
+    // El morado de la ropa y el fondo pasa a moka; la piel no se toca (ver recolor()).
+    recolor: { from: [262, 332], feather: 14, hue: 28, sat: 0.75 },
+  },
+  // Playera y gorra: referencias originales (no hay versión mejorada).
+  camiseta: {
+    ref: 'referencia logo en camiseta.jpg', origW: 736, out: 'merch', targetW: 1600,
+    patch: {
+      boxes: [{ box: [284, 380, 144, 150], from: [-112, -8], feather: 0.17, blur: 0 }],
+      // Estampado tono sobre tono que sigue la inclinación del hombro y la textura de la malla.
+      logos: [{ mode: 'print', x: 352, y: 452, s: 1.5, rot: 12, sx: 0.92, width: 2.1, color: '#c8a46e', ref: 70, alpha: 0.9 }],
+    },
+  },
+  gorra: {
+    ref: 'referencia logo en gorra.jpg', origW: 736, out: 'merch', targetW: 1600,
+    patch: {
+      boxes: [{ box: [334, 356, 78, 58], noise: 0, blur: 1.2, detail: [0, -64] }],
+      logos: [{ mode: 'embroider', x: 372, y: 392, s: 2.15, width: 3.4, color: '#c39a5c', ref: 150, threads: 1.6, relief: 0.7, alpha: 1 }],
+      crop: [0, 0, 736, 700],
     },
   },
 };
+
+/** Cambia un rango de tonos a otro de forma suave (sin escalones ni manchas en la piel). */
+async function recolor(file, r) {
+  const { data, info } = await sharp(file).raw().toBuffer({ resolveWithObject: true });
+  const sm = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  for (let i = 0; i < data.length; i += info.channels) {
+    const R = data[i] / 255, G = data[i + 1] / 255, B = data[i + 2] / 255;
+    const mx = Math.max(R, G, B), mn = Math.min(R, G, B), d = mx - mn;
+    if (d < 0.02) continue;
+    let h = mx === R ? ((G - B) / d) % 6 : mx === G ? (B - R) / d + 2 : (R - G) / d + 4;
+    h = (h * 60 + 360) % 360;
+    const w = sm(r.from[0] - r.feather, r.from[0], h) * (1 - sm(r.from[1], r.from[1] + r.feather, h)) * sm(0.04, 0.12, d);
+    if (w <= 0) continue;
+    // Mismo brillo (luma), con el tono y la saturación nuevos.
+    const Y = 0.299 * R + 0.587 * G + 0.114 * B;
+    const tr = [0.62, 0.48, 0.36], tY = 0.299 * tr[0] + 0.587 * tr[1] + 0.114 * tr[2];
+    const c = tr.map((t) => Y + (Y * t / tY - Y) * r.sat);
+    for (let j = 0; j < 3; j++) data[i + j] = Math.round(Math.min(255, Math.max(0, (data[i + j] / 255) * (1 - w) + c[j] * w)) * 255);
+  }
+  const tmp = file + '.tmp.jpg';
+  await sharp(data, { raw: info }).jpeg({ quality: 94 }).toFile(tmp);
+  fs.renameSync(tmp, file);
+}
 
 /** Escala una configuración de letrero medida en la referencia original al tamaño de trabajo. */
 function scale(p, f) {
@@ -121,7 +164,7 @@ function scale(p, f) {
 const only = process.argv[2];
 for (const [id, v] of Object.entries(VIEWS)) {
   if (only && only !== id) continue;
-  const src = path.join(SRC, v.file);
+  const src = v.ref ? path.resolve(SRC, '../..', v.ref) : path.join(SRC, v.file);
   const m = await sharp(src).metadata();
   const portrait = m.height > m.width;
   const targetW = v.targetW ?? (portrait ? 1600 : 2400);
@@ -135,5 +178,6 @@ for (const [id, v] of Object.entries(VIEWS)) {
     execFileSync(process.execPath, [path.join(import.meta.dirname, 'letrero.mjs'), work, path.join(dir, `${id}.jpg`), JSON.stringify(cfg)], { stdio: 'inherit' });
     fs.rmSync(work);
   }
+  if (v.recolor) await recolor(path.join(dir, `${id}.jpg`), v.recolor);
   console.log(id, 'listo');
 }

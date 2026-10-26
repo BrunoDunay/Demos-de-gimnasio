@@ -7,11 +7,12 @@ import { Icon } from '../shared/icon';
 import { DoorHero } from '../sections/door-hero';
 import { SplitLines } from '../shared/pointer';
 import { Reveal } from '../shared/reveal';
+import { ChipGroup } from '../shared/chip-group';
 
 @Component({
   selector: 'app-contacto',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DoorHero, Faq, Icon, SplitLines, Reveal],
+  imports: [DoorHero, Faq, Icon, SplitLines, Reveal, ChipGroup],
   template: `
     <app-door-hero />
 
@@ -78,7 +79,7 @@ import { Reveal } from '../shared/reveal';
               </label>
               <fieldset>
                 <legend>Disciplina</legend>
-                <div class="chips">
+                <div class="chips" chipGroup>
                   @for (d of disciplineNames; track d) {
                     <button type="button" [class.on]="discipline() === d" [attr.aria-pressed]="discipline() === d" (click)="discipline.set(d)">{{ d }}</button>
                   }
@@ -86,7 +87,7 @@ import { Reveal } from '../shared/reveal';
               </fieldset>
               <fieldset>
                 <legend>Horario preferido</legend>
-                <div class="chips">
+                <div class="chips" chipGroup>
                   @for (t of times; track t) {
                     <button type="button" [class.on]="time() === t" [attr.aria-pressed]="time() === t" (click)="time.set(t)">{{ t }}</button>
                   }
@@ -155,11 +156,18 @@ import { Reveal } from '../shared/reveal';
     .err { margin: -8px 0 16px; color: #e0957f; font-size: 0.85rem; }
     fieldset { border: 0; padding: 0; margin: 0 0 22px; }
     legend { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .chips button { min-height: 44px; padding: 0 18px; border-radius: 999px; font-size: 0.86rem; box-shadow: inset 0 0 0 1px var(--line-2); transition: background-color 400ms ease, color 400ms ease, box-shadow 400ms ease, transform 200ms var(--ease-out); }
-    .chips button:hover { box-shadow: inset 0 0 0 1px var(--gold); }
-    .chips button:active { transform: scale(0.95); }
-    .chips button.on { background: var(--gold); color: var(--bg); box-shadow: none; }
+    /* Opciones con el diseño de los botones del sitio; el fondo dorado se desliza (chipGroup). */
+    .chips { position: relative; display: flex; flex-wrap: wrap; gap: 8px; }
+    .chips button { position: relative; z-index: 1; isolation: isolate; overflow: hidden; min-height: 44px; padding: 0 18px; border-radius: 2px; font-size: 0.64rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-2); box-shadow: inset 0 0 0 1px var(--line-2); transition: color 450ms ease, box-shadow 450ms ease, transform 200ms var(--ease-out); -webkit-tap-highlight-color: transparent; }
+    .chips button::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(105deg, transparent 30%, rgb(255 236 204 / 22%) 48%, rgb(255 236 204 / 40%) 50%, transparent 68%); transform: translateX(-120%); pointer-events: none; }
+    .chips button:active { transform: scale(0.96); }
+    .chips button.on { color: #1a1510; box-shadow: inset 0 0 0 1px transparent; transition-delay: 120ms; }
+    .chips button.on::before { animation: chip-shine 1s 260ms var(--ease-out) both; }
+    @keyframes chip-shine { from { transform: translateX(-120%); } to { transform: translateX(120%); } }
+    @media (hover: hover) and (pointer: fine) {
+      .chips button:not(.on):hover { color: var(--ink); box-shadow: inset 0 0 0 1px var(--gold); background-color: rgb(216 185 138 / 7%); }
+      .chips button:not(.on):hover::before { transform: translateX(120%); transition: transform 900ms var(--ease-out); }
+    }
     .picked { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; font-size: 0.9rem; color: var(--ink-2); }
     .picked app-icon { color: var(--gold); }
     .submit { width: 100%; }
@@ -189,7 +197,7 @@ export default class Contacto {
   private readonly params = toSignal(this.route.queryParamMap, { initialValue: this.route.snapshot.queryParamMap });
   protected readonly contact = CONTACT;
   protected readonly grid = Array.from({ length: 13 }, (_, i) => i * 50);
-  protected readonly disciplineNames = [...DISCIPLINES.map((d) => d.name), 'Movilidad'];
+  protected readonly disciplineNames = [...new Set([...DISCIPLINES.map((d) => d.name), 'Movilidad'])];
   protected readonly times = ['Mañana', 'Mediodía', 'Tarde', 'Noche'];
 
   protected readonly name = signal('');

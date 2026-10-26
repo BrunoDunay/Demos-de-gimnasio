@@ -8,9 +8,9 @@ import { Reveal } from '../shared/reveal';
 
 const ITEMS = [
   { img: 'merch-chamarra', name: 'Chamarra Umbral', detail: 'Nylon mate, forro térmico y arco bordado en oro.', price: '$2,450' },
-  { img: 'merch-playera', name: 'Playera técnica', detail: 'Malla transpirable con etiqueta tejida.', price: '$890' },
-  { img: 'merch-gorra', name: 'Gorra Atelier', detail: 'Sarga lavada, ajuste de latón.', price: '$690' },
-  { img: 'merch-active', name: 'Línea Active', detail: 'Top de manga larga y short sin costuras, color moka.', price: '$1,350' },
+  { img: 'merch-playera', name: 'Playera técnica', detail: 'Malla transpirable con el arco estampado en oro mate.', price: '$890' },
+  { img: 'merch-gorra', name: 'Gorra Atelier', detail: 'Sarga lavada, arco bordado en hilo dorado y ajuste de latón.', price: '$690' },
+  { img: 'merch-active', name: 'Línea Active', detail: 'Top de manga larga y short sin costuras, en tono tierra.', price: '$1,350' },
 ];
 
 /**

@@ -153,7 +153,7 @@ const MEDIA = {
       { name: 'merch-playera', file: 'scripts/club3d/merch/camiseta.jpg', w: 900 },
       { name: 'merch-gorra', file: 'scripts/club3d/merch/gorra.jpg', w: 900 },
       { name: 'merch-caminando', file: 'scripts/club3d/merch/caminando.jpg', w: 600 },
-      { name: 'merch-active', file: 'scripts/club3d/merch/active.jpg', w: 1100, warmHues: [[270, 350, 24, 0.55]] },
+      { name: 'merch-active', file: 'scripts/club3d/merch/active.jpg', w: 1100 },
     ],
     videos: [
       { name: 'hero', local: 'video 1.mp4', w: 1280, filter: 'eq=brightness=-0.06:saturation=0.55:contrast=1.08,colorbalance=rs=0.08:gs=0.02:bs=-0.08:rm=0.06:bm=-0.06' },

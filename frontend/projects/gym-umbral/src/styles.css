@@ -406,52 +406,25 @@ p {
   initial-value: 0px;
 }
 
-/* Recorrido del club: puntos que marcan los objetos con detalle (los crea la escena 3D). */
-.splat-dots {
+
+/* Fondo dorado que se desliza entre opciones (directiva chipGroup). */
+.chip-ind {
   position: absolute;
-  inset: 0;
-  z-index: 1;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  border-radius: 2px;
   pointer-events: none;
-}
-
-.splat-dot {
-  position: absolute;
-  left: -7px;
-  top: -7px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
   opacity: 0;
-  transition: opacity 500ms ease;
-  will-change: transform;
+  background: linear-gradient(180deg, #e6cda3, #cfae7c);
+  box-shadow: inset 0 1px 0 rgb(255 245 225 / 55%), 0 10px 30px -14px rgb(243 213 161 / 55%);
+  transition:
+    transform 700ms cubic-bezier(0.34, 1.25, 0.5, 1),
+    width 700ms cubic-bezier(0.34, 1.25, 0.5, 1),
+    height 700ms cubic-bezier(0.34, 1.25, 0.5, 1),
+    opacity 300ms ease;
 }
 
-.splat-dot::before,
-.splat-dot::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-}
-
-.splat-dot::before {
-  inset: 4px;
-  background: var(--glow);
-  box-shadow: 0 0 10px var(--glow);
-}
-
-.splat-dot::after {
-  inset: 0;
-  box-shadow: inset 0 0 0 1px rgb(243 213 161 / 70%);
-  animation: dot-ping 2.4s var(--ease-out) infinite;
-}
-
-.splat-dot.is-on::after {
-  animation: none;
-  transform: scale(1.8);
-  box-shadow: inset 0 0 0 1px var(--glow);
-}
-
-@keyframes dot-ping {
-  0% { transform: scale(0.6); opacity: 1; }
-  80%, 100% { transform: scale(2.4); opacity: 0; }
+.chip-ind.is-on {
+  opacity: 1;
 }

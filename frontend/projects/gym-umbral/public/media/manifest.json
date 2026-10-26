@@ -307,13 +307,13 @@
     },
     {
       "name": "merch-playera",
-      "width": 735,
-      "height": 964
+      "width": 900,
+      "height": 1181
     },
     {
       "name": "merch-gorra",
-      "width": 736,
-      "height": 700
+      "width": 900,
+      "height": 856
     },
     {
       "name": "merch-caminando",
@@ -323,7 +323,7 @@
     {
       "name": "merch-active",
       "width": 1100,
-      "height": 1745
+      "height": 1788
     }
   ],
   "videos": [

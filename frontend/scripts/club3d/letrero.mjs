@@ -80,6 +80,52 @@ const data = await p.evaluate(async ({ img, serif, sans, cfg }) => {
     for (let k = 0; k < (t.passes ?? 1); k++) g.fillText(t.s, t.x, t.y);
     g.restore();
   }
+  // Logo sobre tela: 'print' (estampado que toma la textura y la luz de la tela) o 'embroider'
+  // (bordado: hilos en diagonal, relieve y sombra). Acepta rotación (rot, grados) y ancho (sx).
+  function fabricLogo(l) {
+    const m = document.createElement('canvas'); m.width = c.width; m.height = c.height;
+    const mg = m.getContext('2d');
+    mg.translate(l.x, l.y); mg.rotate(((l.rot ?? 0) * Math.PI) / 180); mg.scale(l.s * (l.sx ?? 1), l.s); mg.translate(-20, -24);
+    mg.strokeStyle = '#fff'; mg.lineWidth = l.width ?? 1.6; mg.lineCap = 'round'; mg.lineJoin = 'round';
+    for (const d of ['M8 44V18a12 12 0 0 1 24 0v26', 'M20 12v32', 'M2 44h36']) mg.stroke(new Path2D(d));
+    const pad = Math.ceil(40 * l.s);
+    const x0 = Math.max(0, Math.floor(l.x - pad)), y0 = Math.max(0, Math.floor(l.y - pad));
+    const w = Math.min(c.width - x0, pad * 2), h = Math.min(c.height - y0, pad * 2);
+    const A = mg.getImageData(x0, y0, w, h).data;
+    const im = g.getImageData(x0, y0, w, h); const P = im.data;
+    const bl = document.createElement('canvas'); bl.width = w; bl.height = h;
+    const blg = bl.getContext('2d'); blg.filter = `blur(${l.texBlur ?? 4}px)`; blg.drawImage(c, x0, y0, w, h, 0, 0, w, h);
+    const B = blg.getImageData(0, 0, w, h).data;
+    const col = [1, 3, 5].map((k) => parseInt(l.color.slice(k, k + 2), 16));
+    const lum = (d, i) => 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+    const a = (x, y) => (x < 0 || y < 0 || x >= w || y >= h ? 0 : A[(y * w + x) * 4 + 3] / 255);
+    const ref = l.ref ?? 120;
+    const o = Math.max(1, Math.round(l.s * (l.relief ?? 0.9)));
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      const i = (y * w + x) * 4;
+      const al = a(x, y);
+      const mean = lum(B, i);
+      const light = Math.pow(Math.max(mean, 8) / ref, l.mode === 'print' ? 0.75 : 0.45);
+      if (l.mode === 'embroider') {
+        // Sombra del bordado sobre la tela.
+        const sh = a(x - o, y - Math.round(o * 1.5)) * (1 - al);
+        if (sh > 0) for (let j = 0; j < 3; j++) P[i + j] *= 1 - 0.38 * sh;
+      }
+      if (al <= 0) continue;
+      let k;
+      if (l.mode === 'print') {
+        const tex = Math.min(1.5, Math.max(0.55, lum(P, i) / (mean + 1)));
+        k = light * (0.45 + 0.55 * tex);
+      } else {
+        const shade = 1 + 0.9 * (a(x - o, y - o) - a(x + o, y + o));
+        const thread = 0.8 + 0.2 * Math.sin((x - y) * (l.threads ?? 1.7));
+        k = light * shade * thread;
+      }
+      const f = al * (l.alpha ?? 0.92);
+      for (let j = 0; j < 3; j++) P[i + j] = P[i + j] * (1 - f) + Math.min(255, col[j] * k) * f;
+    }
+    g.putImageData(im, x0, y0);
+  }
   // Etiquetas (parche tejido) opcionales: rectángulo redondeado con borde fino y sombra suave.
   for (const b of cfg.badges ?? []) {
     g.save();
@@ -91,6 +137,7 @@ const data = await p.evaluate(async ({ img, serif, sans, cfg }) => {
   }
   // Logo de Umbral (arco, línea de luz y base), opcional, con resplandor de letrero retroiluminado.
   for (const l of cfg.logos ?? []) {
+    if (l.mode) { fabricLogo(l); continue; }
     g.save();
     g.translate(l.x, l.y); g.scale(l.s, l.s); g.translate(-20, -24);
     g.strokeStyle = l.color; g.lineWidth = l.width ?? 1.6; g.lineCap = 'round';
