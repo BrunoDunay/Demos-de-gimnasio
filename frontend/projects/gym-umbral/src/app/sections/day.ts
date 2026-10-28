@@ -36,6 +36,19 @@ const toMin = (t: string) => {
           <img class="f-day" src="media/fachada-dia.webp" alt="" loading="lazy" />
           <img class="f-night" src="media/fachada-noche.webp" alt="" loading="lazy" />
           <img class="f-lights" src="media/fachada-luces.webp" alt="" loading="lazy" />
+          <!-- Perfil de aluminio con tira LED en la orilla del techo (trazado sobre la silueta de la foto).
+               De día se ve el perfil oscuro; al amanecer y desde el atardecer se enciende la luz. -->
+          <svg class="led" viewBox="0 0 2400 1600" preserveAspectRatio="none">
+            <defs>
+              <filter id="led-glow" x="-5%" y="-20%" width="110%" height="140%"><feGaussianBlur stdDeviation="9" /></filter>
+            </defs>
+            @for (d of roof; track $index) {
+              <path class="profile" [attr.d]="d" />
+              <path class="glow" [attr.d]="d" filter="url(#led-glow)" />
+              <path class="spill" [attr.d]="d" filter="url(#led-glow)" />
+              <path class="core" [attr.d]="d" />
+            }
+          </svg>
         </div>
         <div class="shade" aria-hidden="true"></div>
 
@@ -109,6 +122,16 @@ const toMin = (t: string) => {
     .facade img { position: absolute; left: 50%; bottom: 14vh; width: min(96vw, 112vh); height: auto; aspect-ratio: 1472 / 992; translate: -50% 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
     .f-day { opacity: calc((1 - var(--night)) * 0.85); filter: saturate(0.85); }
     .f-night { opacity: calc(var(--night) * 0.88); }
+    /* Tira LED del techo: la misma caja y la misma máscara que la foto, así queda pegada a la orilla */
+    .led { position: absolute; left: 50%; bottom: 14vh; width: min(96vw, 112vh); height: auto; aspect-ratio: 1472 / 992; translate: -50% 0; overflow: visible; -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
+    .led path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    /* Perfil de aluminio: tapa la orilla del recorte; de día es lo único que se ve */
+    .led .profile { stroke: #1d1c1a; stroke-width: 7; opacity: 0.95; }
+    /* La luz: se enciende con la noche (apagada al mediodía) */
+    .led .core { stroke: #fff4dc; stroke-width: 3.2; opacity: clamp(0, calc(var(--night) * 1.6), 1); }
+    .led .glow { stroke: #ffcf8a; stroke-width: 16; opacity: clamp(0, calc(var(--night) * 1.25), 0.95); }
+    /* Bañado de luz hacia abajo, sobre la fachada */
+    .led .spill { stroke: #ffc77a; stroke-width: 60; opacity: clamp(0, calc(var(--night) * 0.32), 0.26); transform: translateY(26px); mix-blend-mode: screen; }
     .f-lights { mix-blend-mode: screen; opacity: calc(var(--night) * 1.15); animation: hum 6s steps(1) infinite; }
     @keyframes hum { 0%, 100% { filter: brightness(1); } 47% { filter: brightness(0.92); } 49% { filter: brightness(1.05); } }
     /* Velo para leer el título y las tarjetas sobre la fachada. */
@@ -167,6 +190,8 @@ export class Day {
   protected readonly active = signal(0);
   protected readonly clock = signal(DAY[0].time);
   protected readonly phase = signal('Amanecer');
+  /** Orillas del techo en coordenadas de la foto (2400 × 1600): marco de la pérgola, techo principal y techo bajo. */
+  protected readonly roof = ['M204 334 L230 161 L736 308', 'M800 228 L2084 680', 'M2092 736 L2352 822'];
 
   constructor() {
     const host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
