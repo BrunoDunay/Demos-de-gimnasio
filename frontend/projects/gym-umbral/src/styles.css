@@ -297,10 +297,12 @@ p {
   transition: transform 600ms var(--ease-out);
 }
 
-.link-line:hover::after {
-  transform: scaleX(0);
-  transform-origin: left;
-  animation: line-back 600ms var(--ease-out) 300ms forwards;
+@media (hover: hover) and (pointer: fine) {
+  .link-line:hover::after {
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: line-back 600ms var(--ease-out) 300ms forwards;
+  }
 }
 
 @keyframes line-back {
@@ -428,3 +430,12 @@ p {
 .chip-ind.is-on {
   opacity: 1;
 }
+
+/* ===== Tacto (pulido con apple-design y emil-design-eng) =====
+   Carruseles que se arrastran con el mouse (shared/drag-scroll.ts). */
+@media (hover: hover) and (pointer: fine) {
+  .drag-scroll { cursor: grab; }
+}
+.drag-scroll.is-dragging { cursor: grabbing; user-select: none; }
+.drag-scroll.is-dragging * { pointer-events: none; }
+.is-dragging { will-change: transform; }

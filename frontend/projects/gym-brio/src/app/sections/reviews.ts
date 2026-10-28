@@ -58,10 +58,10 @@ import { Reveal } from '../shared/reveal';
     .row { display: flex; margin-top: 16px; }
     .track { display: flex; gap: 16px; padding-right: 16px; flex: none; animation: scroll 60s linear infinite; }
     .reverse .track { animation-direction: reverse; animation-duration: 70s; }
-    .row:hover .track { animation-play-state: paused; }
+    @media (hover: hover) and (pointer: fine) { .row:hover .track { animation-play-state: paused; } }
     @keyframes scroll { to { transform: translateX(-100%); } }
     .card { width: 340px; margin: 0; padding: 22px; border-radius: 20px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); display: flex; flex-direction: column; gap: 14px; transition: transform 350ms var(--ease-out), box-shadow 350ms ease; }
-    .card:hover { transform: translateY(-4px) rotate(-1deg); box-shadow: inset 0 0 0 1.5px var(--brand), var(--shadow); }
+    @media (hover: hover) and (pointer: fine) { .card:hover { transform: translateY(-4px) rotate(-1deg); box-shadow: inset 0 0 0 1.5px var(--brand), var(--shadow); } }
     blockquote { margin: 0; font-size: 1rem; color: var(--ink-2); flex: 1; }
     figcaption { display: flex; align-items: center; gap: 10px; font-weight: 650; font-size: 0.92rem; }
     .avatar { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--brand-soft); color: var(--brand); font-weight: 800; }

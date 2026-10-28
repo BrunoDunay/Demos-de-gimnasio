@@ -47,10 +47,13 @@ import { Logo } from '../shared/logo';
     .links { display: flex; gap: 38px; }
     .link { position: relative; padding: 8px 0; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink-2); transition: color 300ms ease; }
     .link::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--gold); transform: scaleX(0); transform-origin: right; transition: transform 600ms var(--ease-out); }
-    .link:hover, .link.is-active { color: var(--ink); }
-    .link:hover::after, .link.is-active::after { transform: scaleX(1); transform-origin: left; }
+    .link.is-active { color: var(--ink); }
+    @media (hover: hover) and (pointer: fine) { .link:hover { color: var(--ink); } }
+    .link.is-active::after { transform: scaleX(1); transform-origin: left; }
+    @media (hover: hover) and (pointer: fine) { .link:hover::after { transform: scaleX(1); transform-origin: left; } }
     .cta { justify-self: end; min-height: 46px; padding: 0 24px; font-size: 0.7rem; }
-    .burger { display: none; justify-self: end; position: relative; width: 46px; height: 46px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--line-2); }
+    .burger { display: none; justify-self: end; position: relative; width: 46px; height: 46px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--line-2); transition: scale 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+    .burger:active { scale: 0.94; }
     .burger i { position: absolute; left: 14px; right: 14px; height: 1px; background: var(--ink); transition: transform 500ms var(--ease-out), top 500ms var(--ease-out); }
     .burger i:first-of-type { top: 19px; }
     .burger i:last-of-type { top: 26px; }
@@ -63,7 +66,7 @@ import { Logo } from '../shared/logo';
       .burger { display: block; }
       .panel {
         display: flex; flex-direction: column; justify-content: space-between; position: fixed; inset: 0; z-index: 1; padding: 120px var(--gutter) 36px;
-        background: var(--bg-2); clip-path: circle(0% at calc(100% - var(--gutter) - 23px) 46px); visibility: hidden; transition: clip-path 900ms var(--ease-in-out), visibility 0s 900ms;
+        background: var(--bg-2); clip-path: circle(0% at calc(100% - var(--gutter) - 23px) 46px); visibility: hidden; transition: clip-path 520ms var(--ease-in-out), visibility 0s 520ms;
       }
       .is-open .panel { clip-path: circle(150% at calc(100% - var(--gutter) - 23px) 46px); visibility: visible; transition: clip-path 900ms var(--ease-in-out); }
       .panel nav { display: flex; flex-direction: column; gap: 6px; }

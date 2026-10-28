@@ -80,10 +80,10 @@ const ITEMS = [
     .frame { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--bg-3); }
     .frame img, .frame video { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-out), filter 600ms ease; filter: brightness(0.86) saturate(0.9); }
     .sheen { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 500ms ease; background: radial-gradient(circle 160px at var(--mx) var(--my), rgb(243 213 161 / 26%), transparent 70%); mix-blend-mode: screen; }
-    .item:hover .frame img { transform: scale(1.06); filter: brightness(1) saturate(1); }
-    .item:hover .sheen { opacity: 1; }
+    @media (hover: hover) and (pointer: fine) { .item:hover .frame img { transform: scale(1.06); filter: brightness(1) saturate(1); } }
+    @media (hover: hover) and (pointer: fine) { .item:hover .sheen { opacity: 1; } }
     .meta { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-top: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--line); transition: border-color 400ms ease; }
-    .item:hover .meta { border-color: var(--gold); }
+    @media (hover: hover) and (pointer: fine) { .item:hover .meta { border-color: var(--gold); } }
     .meta h3 { font-size: 1.35rem; }
     .price { font-size: 0.78rem; letter-spacing: 0.12em; color: var(--gold); }
     .item p { margin-top: 8px; font-size: 0.84rem; color: var(--ink-2); font-weight: 300; }

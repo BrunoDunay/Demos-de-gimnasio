@@ -70,7 +70,7 @@ interface Mote {
     .content { position: relative; }
     .crumbs { display: flex; gap: 10px; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 30px; }
     .crumbs a { pointer-events: auto; transition: color 300ms ease; }
-    .crumbs a:hover { color: var(--gold); }
+    @media (hover: hover) and (pointer: fine) { .crumbs a:hover { color: var(--gold); } }
     .title { margin-top: 18px; max-width: 9.5em; font-size: clamp(3.4rem, 8vw, 8rem); line-height: 0.92; }
     .sub { margin-top: 24px; max-width: 460px; }
     .ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 26px; margin-top: 36px; }

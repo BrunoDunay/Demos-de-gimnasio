@@ -237,11 +237,11 @@ p {
   box-shadow: inset 0 0 0 1.5px var(--line);
 }
 
-.btn-ghost:hover {
-  box-shadow: inset 0 0 0 1.5px var(--ink);
-}
-
 @media (hover: hover) and (pointer: fine) {
+  .btn-ghost:hover {
+    box-shadow: inset 0 0 0 1.5px var(--ink);
+  }
+
   .btn:hover {
     transform: translateY(-2px);
   }
@@ -339,3 +339,12 @@ p {
 .reduce-motion.js [data-reveal] {
   opacity: 1;
 }
+
+/* ===== Tacto (pulido con apple-design y emil-design-eng) =====
+   Carruseles que se arrastran con el mouse (shared/drag-scroll.ts). */
+@media (hover: hover) and (pointer: fine) {
+  .drag-scroll { cursor: grab; }
+}
+.drag-scroll.is-dragging { cursor: grabbing; user-select: none; }
+.drag-scroll.is-dragging * { pointer-events: none; }
+.is-dragging { will-change: transform; }

@@ -30,7 +30,7 @@ import { prefersReducedMotion, useGsap } from '../core/motion';
     .content { position: relative; }
     .crumbs { display: flex; gap: 10px; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 34px; }
     .crumbs a { transition: color 300ms ease; }
-    .crumbs a:hover { color: var(--gold); }
+    @media (hover: hover) and (pointer: fine) { .crumbs a:hover { color: var(--gold); } }
     .title { margin-top: 22px; font-size: clamp(3.6rem, 10vw, 10rem); line-height: 0.92; }
     .sub { margin-top: 26px; }
     .scroll { position: absolute; right: var(--gutter); bottom: 90px; width: 1px; height: 90px; background: var(--line-2); overflow: hidden; }

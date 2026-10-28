@@ -25,7 +25,7 @@ import { prefersReducedMotion, useGsap } from '../core/motion';
     figure { margin: 0; width: clamp(200px, 20vw, 300px); aspect-ratio: 4 / 5; overflow: hidden; }
     figure.tall { aspect-ratio: 3 / 4.6; }
     img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-out), filter 600ms ease; }
-    figure:hover img { transform: scale(1.08); filter: none; }
+    @media (hover: hover) and (pointer: fine) { figure:hover img { transform: scale(1.08); filter: none; } }
   `,
 })
 export class Reel {

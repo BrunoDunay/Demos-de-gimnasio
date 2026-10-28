@@ -64,17 +64,17 @@ import { MotionToggle } from '../shared/motion-toggle';
     h3 { color: #fff; font-size: 1rem; letter-spacing: 0; margin-bottom: 14px; font-family: var(--font-body); font-weight: 700; }
     nav { display: flex; flex-direction: column; gap: 8px; }
     nav a { width: fit-content; transition: color 200ms ease, transform 300ms var(--ease-out); }
-    nav a:hover { color: var(--lime); transform: translateX(4px); }
+    @media (hover: hover) and (pointer: fine) { nav a:hover { color: var(--lime); transform: translateX(4px); } }
     .cols p span { display: inline-block; min-width: 130px; color: rgb(255 255 255 / 55%); }
     .phone { margin-top: 8px; color: #fff; font-weight: 600; }
     .social { display: flex; gap: 8px; margin-top: 20px; }
     .social a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: rgb(255 255 255 / 8%); color: #fff; transition: background-color 250ms ease, color 250ms ease, transform 300ms var(--ease-back); }
-    .social a:hover { background: var(--lime); color: var(--ink); transform: translateY(-3px) rotate(-8deg); }
+    @media (hover: hover) and (pointer: fine) { .social a:hover { background: var(--lime); color: var(--ink); transform: translateY(-3px) rotate(-8deg); } }
     .bottom { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding-top: 24px; border-top: 1px solid rgb(255 255 255 / 10%); font-size: 0.85rem; color: rgb(255 255 255 / 55%); }
     .bottom a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
     .wa { position: fixed; right: 20px; bottom: 20px; z-index: 40; display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; background: #25d366; color: #fff; box-shadow: 0 12px 30px -8px rgb(37 211 102 / 60%); transition: transform 300ms var(--ease-back); }
     .wa::before { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #25d366; animation: ring 2.4s ease-out infinite; }
-    .wa:hover { transform: scale(1.08) rotate(-6deg); }
+    @media (hover: hover) and (pointer: fine) { .wa:hover { transform: scale(1.08) rotate(-6deg); } }
     .wa:active { transform: scale(0.95); }
     @keyframes ring { from { transform: scale(1); opacity: 0.8; } to { transform: scale(1.6); opacity: 0; } }
     @media (max-width: 860px) { .cols { grid-template-columns: 1fr 1fr; } .brand { grid-column: 1 / -1; } }

@@ -131,7 +131,7 @@ import { ChipGroup } from '../shared/chip-group';
     .h2 { margin-top: 20px; }
     .cards { list-style: none; padding: 0; margin: 40px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
     .cards li { display: flex; gap: 16px; padding: 24px; background: var(--bg); align-items: flex-start; transition: background-color 500ms ease; }
-    .cards li:hover { background: var(--bg-2); }
+    @media (hover: hover) and (pointer: fine) { .cards li:hover { background: var(--bg-2); } }
     .cards app-icon { color: var(--gold); }
     .cards b { display: block; font-weight: 500; }
     .cards span { display: block; font-size: 0.82rem; color: var(--muted); margin-bottom: 6px; }

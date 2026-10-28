@@ -119,17 +119,17 @@ import { Reveal } from '../shared/reveal';
     .feat { background: rgb(216 185 138 / 6%); }
     thead .feat { color: var(--gold); }
     tbody tr { transition: background-color 400ms ease; }
-    tbody tr:hover { background: rgb(239 232 220 / 3%); }
+    @media (hover: hover) and (pointer: fine) { tbody tr:hover { background: rgb(239 232 220 / 3%); } }
     .packs-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 48px; }
     .packs-head .h2 { margin-top: 20px; }
     .packs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
     .pack { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 32px 28px; box-shadow: inset 0 0 0 1px var(--line); transition: background-color 500ms ease, box-shadow 500ms ease, transform 700ms var(--ease-out); }
-    .pack:hover { background: var(--bg-2); box-shadow: inset 0 0 0 1px var(--gold); transform: translateY(-6px); }
+    @media (hover: hover) and (pointer: fine) { .pack:hover { background: var(--bg-2); box-shadow: inset 0 0 0 1px var(--gold); transform: translateY(-6px); } }
     .pack-name { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
     .pack b { font-family: var(--font-display); font-weight: 400; font-size: 2.8rem; line-height: 1; margin-top: 18px; }
     .pack small { color: var(--muted); }
     .go { position: absolute; top: 24px; right: 24px; color: var(--muted); transition: color 400ms ease, transform 600ms var(--ease-out); }
-    .pack:hover .go { color: var(--gold); transform: translate(3px, -3px); }
+    @media (hover: hover) and (pointer: fine) { .pack:hover .go { color: var(--gold); transform: translate(3px, -3px); } }
     .faq-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(32px, 6vw, 100px); align-items: start; }
     .faq-grid .h2 { margin-top: 20px; }
     .more { margin-top: 30px; }

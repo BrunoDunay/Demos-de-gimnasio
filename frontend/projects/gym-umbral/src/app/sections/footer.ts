@@ -74,14 +74,14 @@ import { MotionToggle } from '../shared/motion-toggle';
     h3 { font-family: var(--font-body); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
     nav { display: flex; flex-direction: column; gap: 10px; }
     nav a { width: fit-content; color: var(--ink-2); transition: color 300ms ease, transform 500ms var(--ease-out); }
-    nav a:hover { color: var(--ink); transform: translateX(6px); }
+    @media (hover: hover) and (pointer: fine) { nav a:hover { color: var(--ink); transform: translateX(6px); } }
     .cols p { color: var(--ink-2); font-weight: 300; }
     .hours { margin-top: 10px; font-size: 0.92rem; }
     .hours span { display: block; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
-    .plain:hover { color: var(--gold); }
+    @media (hover: hover) and (pointer: fine) { .plain:hover { color: var(--gold); } }
     .social { display: flex; gap: 10px; margin-top: 20px; }
     .social a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--line-2); transition: background-color 400ms ease, color 400ms ease, transform 500ms var(--ease-out); }
-    .social a:hover { background: var(--gold); color: var(--bg); transform: translateY(-3px); }
+    @media (hover: hover) and (pointer: fine) { .social a:hover { background: var(--gold); color: var(--bg); transform: translateY(-3px); } }
     .bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding: 26px 0 30px; border-top: 1px solid var(--line); font-size: 0.78rem; color: var(--muted); }
     .bottom nav { flex-direction: row; gap: 22px; }
     .bottom span a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }

@@ -74,13 +74,14 @@ import { PlayInView } from '../shared/in-view-video';
     .top { position: relative; }
     .crumbs { display: flex; gap: 10px; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 22px; }
     .crumbs a { transition: color 300ms ease; }
-    .crumbs a:hover { color: var(--gold); }
+    @media (hover: hover) and (pointer: fine) { .crumbs a:hover { color: var(--gold); } }
     .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; flex-wrap: wrap; }
     .title { margin-top: 16px; font-size: clamp(3rem, 6.2vw, 6.6rem); line-height: 0.92; }
     .sub { max-width: 380px; }
 
     .doors { position: relative; flex: 1; min-height: 340px; display: flex; gap: clamp(12px, 1.6vw, 22px); }
-    .door { position: relative; flex: 1; min-width: 0; padding: 0; text-align: left; color: inherit; transition: flex 1s var(--ease-out), opacity 700ms ease; }
+    .door { position: relative; flex: 1; min-width: 0; padding: 0; text-align: left; color: inherit; transition: flex 1s var(--ease-out), opacity 700ms ease, scale 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+    .door:active { scale: 0.985; }
     .door.is-open { flex: 3.2; }
     .door.is-dim { opacity: 0.55; }
     .outline { position: absolute; inset: -9px -9px 0; border: 1px solid rgb(216 185 138 / 0%); border-bottom: 0; border-radius: 1000px 1000px 0 0; transition: border-color 700ms ease, inset 900ms var(--ease-out); pointer-events: none; }

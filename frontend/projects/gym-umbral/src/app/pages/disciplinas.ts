@@ -155,7 +155,7 @@ const FILTERS: { id: 'todas' | ScheduleClass['discipline']; label: string }[] = 
     .h2 { margin-top: 20px; }
     .filters { display: flex; flex-wrap: wrap; gap: 8px; }
     .filters button { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 18px; border-radius: 999px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; box-shadow: inset 0 0 0 1px var(--line-2); color: var(--ink-2); transition: background-color 400ms ease, color 400ms ease, box-shadow 400ms ease; }
-    .filters button:hover { box-shadow: inset 0 0 0 1px var(--gold); color: var(--ink); }
+    @media (hover: hover) and (pointer: fine) { .filters button:hover { box-shadow: inset 0 0 0 1px var(--gold); color: var(--ink); } }
     .filters button.on { background: var(--ink); color: var(--bg); box-shadow: none; }
     .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
     .reformer { --c: #d8b98a; } .ride { --c: #c97b5a; } .fuerza { --c: #a9b4a0; } .movilidad { --c: #8fa3b8; }
@@ -168,7 +168,7 @@ const FILTERS: { id: 'todas' | ScheduleClass['discipline']; label: string }[] = 
     .class { display: flex; flex-direction: column; justify-content: center; height: 100%; padding: 10px 12px; border-left: 2px solid var(--c); background: color-mix(in srgb, var(--c) 9%, transparent); transition: background-color 400ms ease, opacity 500ms ease, transform 500ms var(--ease-out); }
     .class b { font-weight: 600; font-size: 0.82rem; line-height: 1.25; }
     .class small { font-size: 0.7rem; color: var(--muted); }
-    .class:hover { background: color-mix(in srgb, var(--c) 22%, transparent); transform: translateY(-2px); }
+    @media (hover: hover) and (pointer: fine) { .class:hover { background: color-mix(in srgb, var(--c) 22%, transparent); transform: translateY(-2px); } }
     .class.dim, .m-class.dim { opacity: 0.15; }
     .mobile-list { display: none; }
     @media (max-width: 900px) {

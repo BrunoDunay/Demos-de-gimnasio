@@ -44,7 +44,7 @@ import { Reveal } from '../shared/reveal';
     .lead { margin-top: 22px; }
     .controls { display: flex; align-items: center; gap: 22px; margin-top: 36px; }
     .controls button { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--line-2); transition: background-color 400ms ease, color 400ms ease, transform 200ms var(--ease-out); }
-    .controls button:hover { background: var(--gold); color: var(--bg); }
+    @media (hover: hover) and (pointer: fine) { .controls button:hover { background: var(--gold); color: var(--bg); } }
     .controls button:active { transform: scale(0.94); }
     .count { font-size: 0.72rem; letter-spacing: 0.2em; color: var(--muted); }
     .count b { font-family: var(--font-display); font-weight: 400; font-size: 2rem; letter-spacing: 0; color: var(--ink); margin-right: 4px; }

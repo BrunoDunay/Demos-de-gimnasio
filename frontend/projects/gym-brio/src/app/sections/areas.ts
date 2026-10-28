@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AREAS } from '../core/content';
 import { Icon } from '../shared/icon';
+import { DragScroll } from '../shared/drag-scroll';
 import { Reveal } from '../shared/reveal';
 
 @Component({
   selector: 'app-areas',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Reveal],
+  imports: [Icon, Reveal, DragScroll],
   template: `
     <section class="section areas" id="areas">
       <div class="container">
@@ -18,7 +19,7 @@ import { Reveal } from '../shared/reveal';
           <p class="section-lead" data-reveal [revealDelay]="160">900 m² divididos en cuatro zonas para que cada quien entrene a su ritmo.</p>
         </div>
       </div>
-      <div class="rail container">
+      <div class="rail container" dragScroll>
         @for (a of areas; track a.title; let i = $index) {
           <article class="card" data-reveal [revealDelay]="i * 100" tabindex="0">
             <img [src]="'media/' + a.img + '-sm.webp'" [attr.srcset]="'media/' + a.img + '-sm.webp 720w, media/' + a.img + '.webp 1000w'" sizes="(max-width: 900px) 78vw, 25vw" [alt]="a.title" width="720" height="480" loading="lazy" />
@@ -54,10 +55,14 @@ import { Reveal } from '../shared/reveal';
     h3 { font-size: 1.6rem; letter-spacing: -0.03em; }
     p { margin-top: 8px; font-size: 0.92rem; color: rgb(255 255 255 / 85%); max-height: 0; opacity: 0; overflow: hidden; transform: translateY(8px); transition: max-height 500ms var(--ease-out), opacity 400ms ease, transform 500ms var(--ease-out); }
     .go { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--lime); color: var(--ink); transform: scale(0.6) rotate(-45deg); opacity: 0; transition: transform 400ms var(--ease-back), opacity 300ms ease; }
-    .card:hover, .card:focus-visible { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
-    .card:hover img, .card:focus-visible img { transform: scale(1.08); }
-    .card:hover p, .card:focus-visible p { max-height: 90px; opacity: 1; transform: none; }
-    .card:hover .go, .card:focus-visible .go { transform: none; opacity: 1; }
+    .card:focus-visible { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+    @media (hover: hover) and (pointer: fine) { .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); } }
+    .card:focus-visible img { transform: scale(1.08); }
+    @media (hover: hover) and (pointer: fine) { .card:hover img { transform: scale(1.08); } }
+    .card:focus-visible p { max-height: 90px; opacity: 1; transform: none; }
+    @media (hover: hover) and (pointer: fine) { .card:hover p { max-height: 90px; opacity: 1; transform: none; } }
+    .card:focus-visible .go { transform: none; opacity: 1; }
+    @media (hover: hover) and (pointer: fine) { .card:hover .go { transform: none; opacity: 1; } }
     .card:focus-visible { box-shadow: 0 0 0 3px var(--brand); }
     @media (hover: none) { p { max-height: 90px; opacity: 1; transform: none; } }
     @media (max-width: 900px) {

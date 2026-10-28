@@ -62,9 +62,10 @@ import { Reveal } from '../shared/reveal';
 
     .tabs { --n: 6; position: relative; display: grid; grid-template-columns: repeat(var(--n), 1fr); margin-top: 36px; padding: 6px; border-radius: 999px; background: var(--surface); box-shadow: var(--shadow-sm); }
     .indicator { position: absolute; top: 6px; bottom: 6px; left: 6px; width: calc((100% - 12px) / var(--n)); border-radius: 999px; background: var(--ink); transform: translateX(calc(var(--x) * 100%)); transition: transform 500ms var(--ease-out); }
-    .tab { position: relative; z-index: 1; min-height: 46px; border-radius: 999px; font-weight: 650; color: var(--muted); transition: color 300ms ease; }
+    .tab { position: relative; z-index: 1; min-height: 46px; border-radius: 999px; font-weight: 650; color: var(--muted); transition: color 300ms ease, scale 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+    .tab:active { scale: 0.96; }
     .tab.is-active { color: #fff; }
-    .tab:not(.is-active):hover { color: var(--ink); }
+    @media (hover: hover) and (pointer: fine) { .tab:not(.is-active):hover { color: var(--ink); } }
     .short { display: none; }
 
     .list { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 10px; }

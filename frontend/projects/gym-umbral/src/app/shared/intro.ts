@@ -60,8 +60,9 @@ import { Motion, prefersReducedMotion, useGsap } from '../core/motion';
     .letters { display: flex; gap: 0.62em; margin-right: -0.62em; font-size: clamp(1.1rem, 2vw, 1.45rem); font-weight: 500; color: var(--ink); }
     .letters b { font-weight: 500; opacity: 0; }
     .word small { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.4em; text-transform: uppercase; color: var(--muted); opacity: 0; }
-    .skip { position: absolute; top: clamp(20px, 4vw, 40px); right: clamp(20px, 4vw, 56px); pointer-events: auto; font-size: 0.64rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); padding: 10px 0; transition: color 300ms ease; }
-    .skip:hover { color: var(--gold); }
+    .skip { position: absolute; top: clamp(20px, 4vw, 40px); right: clamp(20px, 4vw, 56px); pointer-events: auto; font-size: 0.64rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); padding: 10px 0; transition: color 300ms ease, scale 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+    .skip:active { scale: 0.95; }
+    @media (hover: hover) and (pointer: fine) { .skip:hover { color: var(--gold); } }
   `,
 })
 export class Intro {

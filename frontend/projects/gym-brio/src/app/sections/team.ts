@@ -1,17 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TEAM } from '../core/content';
+import { DragScroll } from '../shared/drag-scroll';
 import { Reveal } from '../shared/reveal';
 
 @Component({
   selector: 'app-team',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Reveal],
+  imports: [Reveal, DragScroll],
   template: `
     <section class="section team" id="equipo">
       <div class="container">
         <span class="eyebrow" data-reveal>El equipo</span>
         <h2 class="section-title" data-reveal [revealDelay]="80">Coaches que se saben tu nombre.</h2>
-        <div class="grid">
+        <div class="grid" dragScroll>
           @for (t of team; track t.name; let i = $index) {
             <article class="card" data-reveal [revealDelay]="i * 110">
               <div class="photo">

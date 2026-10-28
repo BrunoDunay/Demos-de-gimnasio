@@ -22,7 +22,7 @@ import { Icon } from '../shared/icon';
     .track { display: flex; align-items: center; gap: 28px; padding-right: 28px; flex: none; animation: slide 28s linear infinite; }
     .word { font-family: var(--font-display); font-size: clamp(1.6rem, 3.4vw, 2.6rem); font-weight: 750; letter-spacing: -0.03em; white-space: nowrap; }
     app-icon { color: var(--lime); }
-    .band:hover .track { animation-play-state: paused; }
+    @media (hover: hover) and (pointer: fine) { .band:hover .track { animation-play-state: paused; } }
     @keyframes slide { to { transform: translateX(-100%); } }
   `,
 })

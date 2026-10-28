@@ -32,7 +32,7 @@ import { Reveal } from '../shared/reveal';
     button { width: 100%; display: grid; grid-template-columns: 50px 1fr 30px; align-items: center; gap: 12px; padding: 26px 0; text-align: left; }
     .n { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.2em; color: var(--gold); }
     .q { font-family: var(--font-display); font-size: clamp(1.4rem, 2.4vw, 2rem); line-height: 1.15; transition: color 300ms ease, transform 600ms var(--ease-out); }
-    button:hover .q { color: var(--gold); transform: translateX(6px); }
+    @media (hover: hover) and (pointer: fine) { button:hover .q { color: var(--gold); transform: translateX(6px); } }
     .icon { position: relative; width: 22px; height: 22px; justify-self: end; }
     .icon::before, .icon::after { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--ink); transition: transform 600ms var(--ease-out), background-color 300ms ease; }
     .icon::after { transform: rotate(90deg); }

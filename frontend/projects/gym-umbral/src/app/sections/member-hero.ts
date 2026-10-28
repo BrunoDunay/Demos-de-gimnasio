@@ -117,7 +117,7 @@ function qrPath(): string {
     .grid { position: relative; display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(30px, 5vw, 80px); align-items: center; }
     .crumbs { display: flex; gap: 10px; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 30px; }
     .crumbs a { transition: color 300ms ease; }
-    .crumbs a:hover { color: var(--gold); }
+    @media (hover: hover) and (pointer: fine) { .crumbs a:hover { color: var(--gold); } }
     .title { margin-top: 18px; font-size: clamp(3.4rem, 8vw, 8rem); line-height: 0.92; }
     .sub { margin-top: 24px; max-width: 460px; }
     .ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
@@ -128,7 +128,8 @@ function qrPath(): string {
     .arch::after { content: ''; position: absolute; inset: 12% 14% 0; border-radius: inherit; background: radial-gradient(ellipse at 50% 30%, rgb(243 213 161 / 16%), transparent 70%); }
     .float { position: relative; width: min(480px, 100%); animation: bob 7s ease-in-out infinite; }
     @keyframes bob { 0%, 100% { translate: 0 -8px; } 50% { translate: 0 10px; } }
-    .card { --mx: 50%; --my: 30%; display: block; width: 100%; aspect-ratio: 1.586; padding: 0; perspective: 1200px; color: var(--ink); text-align: left; cursor: pointer; }
+    .card { --mx: 50%; --my: 30%; display: block; width: 100%; aspect-ratio: 1.586; padding: 0; perspective: 1200px; color: var(--ink); text-align: left; cursor: pointer; transition: scale 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+    .card:active { scale: 0.985; }
     .inner { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; will-change: transform; }
     .face {
       position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 7% 7.5%; border-radius: 18px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden;
@@ -169,7 +170,7 @@ function qrPath(): string {
 
     .chips { position: relative; display: flex; gap: 8px; margin-top: 26px; padding: 5px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line-2); }
     .chips button { display: inline-flex; align-items: center; gap: 9px; min-height: 40px; padding: 0 16px; border-radius: 999px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-2); transition: background-color 400ms ease, color 400ms ease; }
-    .chips button:hover { color: var(--ink); }
+    @media (hover: hover) and (pointer: fine) { .chips button:hover { color: var(--ink); } }
     .chips button.on { background: var(--ink); color: var(--bg); }
     .chips i { width: 10px; height: 10px; border-radius: 50%; }
     .chips i[data-plan='gold'] { background: linear-gradient(135deg, #fbe7c2, #9a7242); }

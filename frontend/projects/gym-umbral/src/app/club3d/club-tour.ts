@@ -127,7 +127,8 @@ const DURATION = VIEWS.length - 1 + HOLD;
     .stops { grid-column: 3; align-self: center; display: flex; flex-direction: column; gap: 6px; pointer-events: auto; }
     .stops button { display: flex; align-items: center; justify-content: flex-end; gap: 12px; padding: 8px 0; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: rgb(239 233 223 / 62%); text-shadow: 0 1px 8px rgb(0 0 0 / 70%); transition: color 400ms ease; }
     .stops i { order: 2; width: 18px; height: 1px; background: currentColor; transition: width 600ms var(--ease-out), background-color 400ms ease; }
-    .stops button.on, .stops button:hover { color: var(--ink); }
+    .stops button.on { color: var(--ink); }
+    @media (hover: hover) and (pointer: fine) { .stops button:hover { color: var(--ink); } }
     .stops button.on i { width: 42px; background: var(--gold); }
     .bar { grid-column: 1 / -1; height: 1px; margin-top: 28px; background: var(--line-2); overflow: hidden; }
     .bar i { display: block; height: 100%; background: var(--gold); transform-origin: left; }

@@ -64,9 +64,9 @@ import { Logo } from '../shared/logo';
         display: flex; flex-direction: column; gap: 24px; position: absolute; left: var(--gutter); right: var(--gutter); top: calc(100% + 8px);
         padding: 20px; border-radius: 28px; background: var(--ink); color: #fff;
         clip-path: inset(0 0 100% 0 round 28px); opacity: 0; pointer-events: none;
-        transition: clip-path 500ms var(--ease-out), opacity 300ms ease;
+        transition: clip-path 300ms var(--ease-out), opacity 200ms ease;
       }
-      .nav.is-open .sheet { clip-path: inset(0 0 0 0 round 28px); opacity: 1; pointer-events: auto; }
+      .nav.is-open .sheet { clip-path: inset(0 0 0 0 round 28px); opacity: 1; pointer-events: auto; transition-duration: 500ms, 300ms; }
       .sheet nav { display: grid; }
       .sheet-link {
         display: flex; justify-content: space-between; align-items: center; padding: 14px 6px; border-bottom: 1px solid rgb(255 255 255 / 10%);

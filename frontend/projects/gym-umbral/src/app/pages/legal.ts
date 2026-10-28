@@ -65,7 +65,7 @@ const DOCS: Record<string, LegalDoc> = {
     .legal { padding: 170px 0 110px; }
     .narrow { max-width: 820px; }
     .back { display: inline-block; margin-bottom: 30px; font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); transition: color 200ms ease, transform 300ms var(--ease-expo); }
-    .back:hover { color: var(--gold); transform: translateX(-4px); }
+    @media (hover: hover) and (pointer: fine) { .back:hover { color: var(--gold); transform: translateX(-4px); } }
     h1 { margin-top: 18px; font-size: clamp(3.2rem, 8vw, 6.8rem); }
     .intro { margin-top: 26px; font-size: 1.15rem; color: var(--ink-2); }
     section { margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--line); }

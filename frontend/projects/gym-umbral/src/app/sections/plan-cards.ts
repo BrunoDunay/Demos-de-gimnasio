@@ -63,8 +63,8 @@ import { Reveal } from '../shared/reveal';
       transform: perspective(1300px) rotateX(var(--rx)) rotateY(var(--ry)); transform-style: preserve-3d; transition: transform 700ms var(--ease-out), box-shadow 600ms ease;
     }
     .card.is-featured { background: linear-gradient(180deg, #221e18, var(--bg-2)); box-shadow: inset 0 0 0 1px rgb(216 185 138 / 45%), 0 0 80px -30px rgb(243 213 161 / 30%); }
-    .card:hover { box-shadow: inset 0 0 0 1px var(--line-2), 0 50px 70px -40px rgb(0 0 0 / 80%); }
-    .card.is-featured:hover { box-shadow: inset 0 0 0 1px rgb(216 185 138 / 60%), 0 0 110px -20px rgb(243 213 161 / 38%); }
+    @media (hover: hover) and (pointer: fine) { .card:hover { box-shadow: inset 0 0 0 1px var(--line-2), 0 50px 70px -40px rgb(0 0 0 / 80%); } }
+    @media (hover: hover) and (pointer: fine) { .card.is-featured:hover { box-shadow: inset 0 0 0 1px rgb(216 185 138 / 60%), 0 0 110px -20px rgb(243 213 161 / 38%); } }
     .edge {
       position: absolute; inset: 0; padding: 1px; pointer-events: none; opacity: 0; transition: opacity 500ms ease;
       background: radial-gradient(260px circle at var(--mx) var(--my), rgb(243 213 161 / 90%), transparent 60%);
@@ -72,7 +72,7 @@ import { Reveal } from '../shared/reveal';
       mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
     }
     .glare { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 500ms ease; background: radial-gradient(500px circle at var(--mx) var(--my), rgb(243 213 161 / 9%), transparent 55%); }
-    .card:hover .edge, .card:hover .glare { opacity: 1; }
+    @media (hover: hover) and (pointer: fine) { .card:hover .edge, .card:hover .glare { opacity: 1; } }
     .flag { position: absolute; top: 18px; right: 18px; padding: 6px 12px; border-radius: 999px; background: var(--gold); color: var(--bg); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; transform: translateZ(30px); }
     h3 { font-size: 2.6rem; transform: translateZ(24px); }
     .note { margin-top: 6px; color: var(--gold); font-size: 1.15rem; }
@@ -89,14 +89,14 @@ import { Reveal } from '../shared/reveal';
     .card .btn { width: 100%; transform: translateZ(28px); }
     /* Herencia: bloque que deja claro que el plan trae todo el anterior. */
     .inherit { position: relative; display: flex; align-items: center; gap: 14px; margin-top: 18px; padding: 14px 16px; background: linear-gradient(90deg, rgb(216 185 138 / 14%), rgb(216 185 138 / 4%)); box-shadow: inset 0 0 0 1px rgb(216 185 138 / 30%); transform: translateZ(20px); cursor: default; transition: box-shadow 400ms ease, background-color 400ms ease; }
-    .inherit:hover { box-shadow: inset 0 0 0 1px var(--gold); }
+    @media (hover: hover) and (pointer: fine) { .inherit:hover { box-shadow: inset 0 0 0 1px var(--gold); } }
     .layers { position: relative; width: 26px; height: 22px; flex: none; }
     .layers i { position: absolute; left: 0; right: 0; height: 9px; border: 1px solid var(--gold); background: var(--bg-2); transition: transform 500ms var(--ease-out); }
     .layers i:nth-child(1) { top: 0; opacity: 0.45; }
     .layers i:nth-child(2) { top: 6px; opacity: 0.7; }
     .layers i:nth-child(3) { top: 12px; background: var(--gold); }
-    .inherit:hover .layers i:nth-child(1) { transform: translateY(-3px); }
-    .inherit:hover .layers i:nth-child(3) { transform: translateY(2px); }
+    @media (hover: hover) and (pointer: fine) { .inherit:hover .layers i:nth-child(1) { transform: translateY(-3px); } }
+    @media (hover: hover) and (pointer: fine) { .inherit:hover .layers i:nth-child(3) { transform: translateY(2px); } }
     .inherit-text { display: flex; flex-direction: column; line-height: 1.2; }
     .inherit-text small { font-size: 0.56rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
     .inherit-text b { font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; color: var(--ink); }

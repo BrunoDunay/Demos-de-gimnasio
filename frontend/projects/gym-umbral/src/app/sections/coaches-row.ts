@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { COACHES } from '../core/content';
 import { SplitLines } from '../shared/pointer';
+import { DragScroll } from '../shared/drag-scroll';
 import { Reveal } from '../shared/reveal';
 
 /** Coaches con reflector: la foto está en blanco y negro y el cursor revela el color donde pasa la luz. */
 @Component({
   selector: 'app-coaches-row',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SplitLines, Reveal],
+  imports: [SplitLines, Reveal, DragScroll],
   template: `
     <section class="section coaches">
       <div class="container">
@@ -15,7 +16,7 @@ import { Reveal } from '../shared/reveal';
           <span class="label" data-reveal>Coaches de autor</span>
           <h2 class="h2" splitLines>Las manos detrás<br />de <em class="gold">cada clase.</em></h2>
         </div>
-        <div class="row">
+        <div class="row" dragScroll>
           @for (c of coaches; track c.name; let i = $index) {
             <article class="card" data-reveal [revealDelay]="i * 120" tabindex="0" (pointermove)="light($event)" (pointerleave)="dark($event)">
               <div class="photo">
@@ -48,13 +49,16 @@ import { Reveal } from '../shared/reveal';
       transition: transform 1.4s var(--ease-out), -webkit-mask-size 400ms ease;
     }
     .halo { position: absolute; inset: 0; background: radial-gradient(circle calc(var(--r) * 0.7) at var(--mx) var(--my), rgb(243 213 161 / 16%), transparent 70%); mix-blend-mode: screen; pointer-events: none; }
-    .card:hover .photo img, .card:focus-visible .photo img { transform: scale(1.04); }
+    .card:focus-visible .photo img { transform: scale(1.04); }
+    @media (hover: hover) and (pointer: fine) { .card:hover .photo img { transform: scale(1.04); } }
     .photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgb(13 12 10 / 90%), transparent 45%); opacity: 0; transition: opacity 600ms ease; }
     .bio { position: absolute; z-index: 1; left: 22px; right: 22px; bottom: 20px; font-family: var(--font-display); font-style: italic; font-size: 1.3rem; line-height: 1.2; opacity: 0; transform: translateY(16px); transition: opacity 600ms ease, transform 800ms var(--ease-out); }
-    .card:hover .photo::after, .card:focus-visible .photo::after { opacity: 1; }
-    .card:hover .bio, .card:focus-visible .bio { opacity: 1; transform: none; }
+    .card:focus-visible .photo::after { opacity: 1; }
+    @media (hover: hover) and (pointer: fine) { .card:hover .photo::after { opacity: 1; } }
+    .card:focus-visible .bio { opacity: 1; transform: none; }
+    @media (hover: hover) and (pointer: fine) { .card:hover .bio { opacity: 1; transform: none; } }
     h3 { margin-top: 20px; font-size: 1.9rem; transition: color 300ms ease; }
-    .card:hover h3 { color: var(--gold); }
+    @media (hover: hover) and (pointer: fine) { .card:hover h3 { color: var(--gold); } }
     .role { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
     @media (hover: none) {
       .color { -webkit-mask-image: none; mask-image: none; }
